@@ -74,7 +74,7 @@ const elements = [
 
 // Tabela de defesa: attack -> defense
 const chart = {
-  Neutral:   { Fighting: 2 },
+  Neutral:   { Fighting: 2, Soul: 0 },
   Fighting: { Nature: 2, Earth: 2 },
   Fire:     { Water: 2, Nature: 0.5, Ice: 0.5 },
   Water:    { Lightning: 2, Nature: 2, Fire: 0.5 },
@@ -125,7 +125,7 @@ function render(damage) {
   results.innerHTML = '';
 
   const groups = {
-    'Fraqueza (x2+)': ['x2'],
+    'Fraqueza (x2)': ['x2'],
     'Resistência (x0.5)': ['x05'],
     'Imune (x0)': ['x0'],
     'Dano Normal (x1)': ['x1']

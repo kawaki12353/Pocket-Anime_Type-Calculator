@@ -86,7 +86,6 @@ const elements = [
 /*
   REGRA:
   chart[ATAQUE][DEFESA] = multiplicador
-  (baseado na tabela enviada)
 */
 const chart = {
   Neutral: {
@@ -178,7 +177,7 @@ const results   = document.getElementById('results');
 
 function populate() {
   primary.innerHTML   = '<option value="">Primário</option>';
-  secondary.innerHTML = '<option value="">Secundário (opcional)</option>';
+  secondary.innerHTML = '<option value="">Secundário</option>';
 
   elements.forEach(el => {
     primary.innerHTML   += `<option value="${el}">${el}</option>`;
@@ -189,14 +188,15 @@ function populate() {
 function calculate() {
   const p = primary.value;
   const s = secondary.value;
-  if (!p) return;
+
+  if (!p && !s) return;
 
   const damage = {};
 
   elements.forEach(atk => {
     let mult = 1;
 
-    if (chart[atk]?.[p] !== undefined) {
+    if (p && chart[atk]?.[p] !== undefined) {
       mult *= chart[atk][p];
     }
 
@@ -229,6 +229,7 @@ function render(damage) {
 
   for (const el in damage) {
     const v = damage[el];
+
     if (v === 0) mapped.x0.push(el);
     else if (v === 0.25) mapped.x025.push(el);
     else if (v === 0.5) mapped.x05.push(el);

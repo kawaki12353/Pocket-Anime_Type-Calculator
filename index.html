@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de Elementos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f4f7;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.selectors {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+select {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.section h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.badges {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.badge {
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+}
+
+.x2 { background: #d32f2f; }
+.x05 { background: #388e3c; }
+.x0 { background: #6a1b9a; }
+.x1 { background: #9e9e9e; }
+
+  </style>
+</head>
+<body><h1>Calculadora de Fraquezas e Resistências</h1><div class="selectors">
+  <select id="primary"></select>
+  <select id="secondary"></select>
+</div><div id="results"></div><script>
+const elements = [
+  'Neutral','Fighting','Fire','Water','Nature','Earth','Wind','Ice','Lightning','Soul','Psychic','Poison','Light','Dark','Demon','Beast'
+];
+
+// Tabela de defesa: attack -> defense
+const chart = {
+  Neutral:   { Fighting: 2 },
+  Fighting: { Nature: 2, Earth: 2 },
+  Fire:     { Water: 2, Nature: 0.5, Ice: 0.5 },
+  Water:    { Lightning: 2, Nature: 2, Fire: 0.5 },
+  Nature:   { Fire: 2, Ice: 2, Water: 0.5 },
+  Earth:    { Water: 2, Wind: 2, Lightning: 0 },
+  Wind:     { Ice: 2, Earth: 0.5 },
+  Ice:      { Fire: 2, Fighting: 2 },
+  Lightning:{ Earth: 2, Water: 0.5 },
+  Soul:     { Psychic: 2, Dark: 0.5 },
+  Psychic:  { Dark: 2, Soul: 0.5 },
+  Poison:   { Nature: 2, Earth: 0.5 },
+  Light:    { Dark: 2, Demon: 2 },
+  Dark:     { Light: 2, Psychic: 0.5 },
+  Demon:    { Light: 2 },
+  Beast:    { Fighting: 2 }
+};
+
+const primary = document.getElementById('primary');
+const secondary = document.getElementById('secondary');
+const results = document.getElementById('results');
+
+function populate() {
+  primary.innerHTML = '<option value="">Primário</option>';
+  secondary.innerHTML = '<option value="">Secundário (opcional)</option>';
+  elements.forEach(el => {
+    primary.innerHTML += `<option value="${el}">${el}</option>`;
+    secondary.innerHTML += `<option value="${el}">${el}</option>`;
+  });
+}
+
+function calculate() {
+  const p = primary.value;
+  const s = secondary.value;
+  if (!p) return;
+
+  const damage = {};
+  elements.forEach(atk => {
+    let mult = 1;
+    if (chart[atk]?.[p]) mult *= chart[atk][p];
+    if (s && chart[atk]?.[s]) mult *= chart[atk][s];
+    damage[atk] = mult;
+  });
+
+  render(damage);
+}
+
+function render(damage) {
+  results.innerHTML = '';
+
+  const groups = {
+    'Fraqueza (x2+)': ['x2'],
+    'Resistência (x0.5)': ['x05'],
+    'Imune (x0)': ['x0'],
+    'Dano Normal (x1)': ['x1']
+  };
+
+  const mapped = { x2: [], x05: [], x0: [], x1: [] };
+
+  for (const el in damage) {
+    const v = damage[el];
+    if (v === 0) mapped.x0.push(el);
+    else if (v < 1) mapped.x05.push(el);
+    else if (v > 1) mapped.x2.push(el);
+    else mapped.x1.push(el);
+  }
+
+  for (const title in groups) {
+    const key = groups[title][0];
+    const section = document.createElement('div');
+    section.className = 'section';
+    section.innerHTML = `<h2>${title}</h2>`;
+    const box = document.createElement('div');
+    box.className = 'badges';
+    mapped[key].forEach(e => {
+      box.innerHTML += `<div class="badge ${key}">${e}</div>`;
+    });
+    section.appendChild(box);
+    results.appendChild(section);
+  }
+}
+
+primary.addEventListener('change', calculate);
+secondary.addEventListener('change', calculate);
+
+populate();
+</script></body>
+</html>

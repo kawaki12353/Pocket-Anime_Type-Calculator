@@ -12,22 +12,36 @@ body {
   padding: 20px;
 }
 
+/* HEADER FIXO */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #f2f4f7;
+  z-index: 1000;
+  padding: 10px 20px 15px;
+}
+
 /* LOGO */
 .logo {
-  position: fixed;
-  top: 10px;
-  left: 10px;
   width: 220px;
   max-width: 60vw;
-  z-index: 1000;
 }
 
+/* TÍTULO */
 h1 {
   text-align: center;
-  margin-top: 90px;
-  margin-bottom: 20px;
+  margin: 15px 0 0;
+  font-size: 24px;
 }
 
+/* ESPAÇO PARA CONTEÚDO NÃO FICAR SOB HEADER */
+.content {
+  margin-top: 160px;
+}
+
+/* SELECTS */
 .selectors {
   display: flex;
   gap: 10px;
@@ -120,16 +134,21 @@ select {
 
 <body>
 
-<img src="assets/Pocket-Anime-logo.png" alt="Pocket Anime" class="logo">
-
-<h1 id="title"></h1>
-
-<div class="selectors">
-  <select id="primary"></select>
-  <select id="secondary"></select>
+<!-- HEADER FIXO -->
+<div class="header">
+  <img src="assets/Pocket-Anime-logo.png" alt="Pocket Anime" class="logo">
+  <h1 id="title"></h1>
 </div>
 
-<div id="results"></div>
+<!-- CONTEÚDO -->
+<div class="content">
+  <div class="selectors">
+    <select id="primary"></select>
+    <select id="secondary"></select>
+  </div>
+
+  <div id="results"></div>
+</div>
 
 <div class="lang-toggle">
   <button id="langBtn"></button>
@@ -144,21 +163,11 @@ const elements = [
 ];
 
 const icons = {
-  Neutral:'neutral_element.png', 
-  Fire:'fire_element.png', 
-  Water:'water_element.png',
-  Nature:'nature_element.png', 
-  Earth:'earth_element.png', 
-  Wind:'wind_element.png',
-  Ice:'ice_element.png', 
-  Lightning:'lightning_element.png', 
-  Soul:'soul_element.png',
-  Psychic:'psychic_element.png', 
-  Demon:'demon_element.png', 
-  Poison:'poison_element.png',
-  Fighting:'fighting_element.png', 
-  Light:'light_element.png', 
-  Dark:'dark_element.png',
+  Neutral:'neutral_element.png', Fire:'fire_element.png', Water:'water_element.png',
+  Nature:'nature_element.png', Earth:'earth_element.png', Wind:'wind_element.png',
+  Ice:'ice_element.png', Lightning:'lightning_element.png', Soul:'soul_element.png',
+  Psychic:'psychic_element.png', Demon:'demon_element.png', Poison:'poison_element.png',
+  Fighting:'fighting_element.png', Light:'light_element.png', Dark:'dark_element.png',
   Beast:'beast_element.png'
 };
 
@@ -275,6 +284,7 @@ const texts = {
 };
 
 let lang='pt';
+let lastDamage=null;
 
 const primary=document.getElementById('primary');
 const secondary=document.getElementById('secondary');
@@ -301,6 +311,7 @@ function calculate(){
     if(s&&chart[atk]?.[s]!=undefined&&p!==s)m*=chart[atk][s];
     damage[atk]=m;
   });
+  lastDamage=damage;
   render(damage);
 }
 
@@ -339,7 +350,7 @@ function updateLang(){
   title.textContent=texts[lang].title;
   langBtn.textContent=texts[lang].btn;
   populate();
-  calculate();
+  if(lastDamage)render(lastDamage);
 }
 
 langBtn.onclick=()=>{

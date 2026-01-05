@@ -12,7 +12,7 @@ body {
   padding: 20px;
 }
 
-/* LOGO / TÍTULO */
+/* LOGO */
 .logo {
   position: fixed;
   top: 10px;
@@ -55,7 +55,7 @@ select {
   margin-bottom: 10px;
 }
 
-/* GRID CORRIGIDO */
+/* GRID */
 .badges {
   display: grid;
   grid-template-columns: repeat(auto-fill, 120px);
@@ -63,15 +63,23 @@ select {
   justify-content: center;
 }
 
-/* BADGES FIXOS */
+/* BADGE */
 .badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
   padding: 10px;
   border-radius: 8px;
-  text-align: center;
   color: #fff;
   font-weight: bold;
-  font-size: 14px;
-  white-space: nowrap;
+  font-size: 13px;
+  text-align: center;
+}
+
+.badge img {
+  width: 36px;
+  height: 36px;
 }
 
 /* CORES */
@@ -103,11 +111,29 @@ const elements = [
   'Lightning','Soul','Psychic','Poison','Light','Dark','Demon','Beast'
 ];
 
+/* MAPA DE ÍCONES */
+const icons = {
+  Neutral:   'neutral_element.png',
+  Fire:      'fire_element.png',
+  Water:     'water_element.png',
+  Nature:    'nature_element.png',
+  Earth:     'earth_element.png',
+  Wind:      'wind_element.png',
+  Ice:       'ice_element.png',
+  Lightning: 'lightning_element.png',
+  Soul:      'soul_element.png',
+  Psychic:   'psychic_element.png',
+  Demon:     'demon_element.png',
+  Poison:    'poison_element.png',
+  Fighting:  'fighting_element.png',
+  Light:     'light_element.png',
+  Dark:      'dark_element.png',
+  Beast:     'beast_element.png'
+};
+
+/* TABELA DE EFETIVIDADE */
 const chart = {
-  Neutral: {
-    Earth: 0.5,
-    Soul: 0
-  },
+  Neutral: { Earth: 0.5, Soul: 0 },
 
   Fighting: {
     Ice: 2, Earth: 2, Neutral: 2,
@@ -259,7 +285,12 @@ function render(damage) {
     box.className = 'badges';
 
     mapped[key].forEach(el => {
-      box.innerHTML += `<div class="badge ${key}">${el}</div>`;
+      box.innerHTML += `
+        <div class="badge ${key}">
+          <img src="assets/elements/${icons[el]}" alt="${el}">
+          <span>${el}</span>
+        </div>
+      `;
     });
 
     section.appendChild(box);

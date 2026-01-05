@@ -13,19 +13,17 @@ body {
   margin: 0;
 }
 
-/* HEADER NORMAL */
+/* HEADER */
 .header {
   text-align: center;
   margin-bottom: 30px;
 }
 
-/* LOGO */
 .logo {
   width: 220px;
   max-width: 60vw;
 }
 
-/* TÍTULO */
 h1 {
   margin-top: 15px;
   font-size: 24px;
@@ -124,13 +122,11 @@ select {
 
 <body>
 
-<!-- HEADER NORMAL -->
 <div class="header">
   <img src="assets/Pocket-Anime-logo.png" alt="Pocket Anime" class="logo">
   <h1 id="title"></h1>
 </div>
 
-<!-- CONTEÚDO -->
 <div class="selectors">
   <select id="primary"></select>
   <select id="secondary"></select>
@@ -160,7 +156,9 @@ const icons = {
 };
 
 const chart = {
-  Neutral: { Earth: 0.5, Soul: 0 },
+  Neutral: { 
+    Earth: 0.5, Soul: 0 
+  },
 
   Fighting: {
     Ice: 2, Earth: 2, Neutral: 2,
@@ -289,16 +287,32 @@ function populate(){
   });
 }
 
+/* NOVO: estado padrão = tudo normal */
+function renderAllNormal(){
+  const damage={};
+  elements.forEach(e=>damage[e]=1);
+  lastDamage=damage;
+  render(damage);
+}
+
 function calculate(){
-  const p=primary.value,s=secondary.value;
-  if(!p&&!s)return;
+  const p=primary.value;
+  const s=secondary.value;
+
+  /* Se ambos vazios → tudo normal */
+  if(!p && !s){
+    renderAllNormal();
+    return;
+  }
+
   const damage={};
   elements.forEach(atk=>{
     let m=1;
-    if(p&&chart[atk]?.[p]!=undefined)m*=chart[atk][p];
-    if(s&&chart[atk]?.[s]!=undefined&&p!==s)m*=chart[atk][s];
+    if(p && chart[atk]?.[p] !== undefined) m *= chart[atk][p];
+    if(s && chart[atk]?.[s] !== undefined && p !== s) m *= chart[atk][s];
     damage[atk]=m;
   });
+
   lastDamage=damage;
   render(damage);
 }
@@ -306,29 +320,34 @@ function calculate(){
 function render(damage){
   results.innerHTML='';
   const map={x4:[],x2:[],x1:[],x05:[],x025:[],x0:[]};
+
   for(const e in damage){
     const v=damage[e];
-    if(v===0)map.x0.push(e);
-    else if(v===0.25)map.x025.push(e);
-    else if(v===0.5)map.x05.push(e);
-    else if(v===2)map.x2.push(e);
-    else if(v===4)map.x4.push(e);
+    if(v===0) map.x0.push(e);
+    else if(v===0.25) map.x025.push(e);
+    else if(v===0.5) map.x05.push(e);
+    else if(v===2) map.x2.push(e);
+    else if(v===4) map.x4.push(e);
     else map.x1.push(e);
   }
+
   for(const k in map){
-    if(!map[k].length)continue;
+    if(!map[k].length) continue;
     const sec=document.createElement('div');
     sec.className='section';
     sec.innerHTML=`<h2>${texts[lang].groups[k]}</h2>`;
+
     const box=document.createElement('div');
     box.className='badges';
+
     map[k].forEach(e=>{
       box.innerHTML+=`
-      <div class="badge ${k}">
-        <img src="assets/${icons[e]}">
-        <span>${e}</span>
-      </div>`;
+        <div class="badge ${k}">
+          <img src="assets/${icons[e]}">
+          <span>${e}</span>
+        </div>`;
     });
+
     sec.appendChild(box);
     results.appendChild(sec);
   }
@@ -338,17 +357,19 @@ function updateLang(){
   title.textContent=texts[lang].title;
   langBtn.textContent=texts[lang].btn;
   populate();
-  if(lastDamage)render(lastDamage);
+  if(lastDamage) render(lastDamage);
 }
 
 langBtn.onclick=()=>{
-  lang=lang==='pt'?'en':'pt';
+  lang = lang === 'pt' ? 'en' : 'pt';
   updateLang();
 };
 
-primary.onchange=calculate;
-secondary.onchange=calculate;
+primary.onchange = calculate;
+secondary.onchange = calculate;
+
 updateLang();
+renderAllNormal(); // inicia com tudo normal
 </script>
 
 </body>

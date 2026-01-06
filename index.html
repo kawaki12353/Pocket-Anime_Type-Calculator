@@ -3,411 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pocket Anime - Type Calculator</title>
+<title>Pocket Anime</title>
 
 <style>
-body {
+body{
+  margin:0;
   font-family: Arial, sans-serif;
-  background: #f2f4f7;
-  padding: 20px;
-  margin: 0;
+  background:#f2f4f7;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
 }
 
-/* HEADER */
-.header {
-  text-align: center;
-  margin-bottom: 30px;
+.container{
+  background:#fff;
+  border-radius:16px;
+  padding:30px 25px;
+  max-width:420px;
+  width:100%;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
 
-.logo {
-  width: 220px;
-  max-width: 60vw;
+.logo{
+  width:240px;
+  max-width:70%;
 }
 
-h1 {
-  margin-top: 15px;
-  font-size: 24px;
+h1{
+  margin:20px 0 10px;
 }
 
-/* SELECTORS */
-.selectors {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 30px;
+p{
+  color:#555;
+  font-size:15px;
 }
 
-/* CUSTOM SELECT */
-.custom-select {
-  position: relative;
-  width: 220px;
+.btn{
+  margin-top:25px;
+  display:inline-block;
+  padding:14px 26px;
+  background:#d32f2f;
+  color:#fff;
+  border-radius:30px;
+  font-size:16px;
+  font-weight:bold;
+  text-decoration:none;
+  transition:.2s;
 }
 
-.select-btn {
-  background: #fff;
-  border-radius: 10px;
-  padding: 10px 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  border: 1px solid #ccc;
+.btn:hover{
+  background:#b71c1c;
 }
 
-.select-btn img {
-  width: 26px;
-  height: 26px;
-}
-
-.select-btn span {
-  font-weight: bold;
-}
-
-.select-btn::after {
-  content: "▼";
-  margin-left: auto;
-  font-size: 12px;
-}
-
-/* DROPDOWN */
-.select-options {
-  position: absolute;
-  top: 110%;
-  left: 0;
-  width: 100%;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-  max-height: 260px;
-  overflow-y: auto;
-  display: none;
-  z-index: 10;
-}
-
-.select-options.open {
-  display: block;
-}
-
-.option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.option img {
-  width: 26px;
-  height: 26px;
-}
-
-.option:hover {
-  background: #f1f1f1;
-}
-
-/* SEÇÕES */
-.section {
-  background: #fff;
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 20px;
-}
-
-.section h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-/* GRID */
-.badges {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 120px);
-  gap: 10px;
-  justify-content: center;
-}
-
-/* BADGE */
-.badge {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 10px;
-  border-radius: 8px;
-  color: #fff;
-  font-weight: bold;
-  font-size: 13px;
-  text-align: center;
-}
-
-.badge img {
-  width: 36px;
-  height: 36px;
-}
-
-/* CORES */
-.x4   { background: #b71c1c; }
-.x2   { background: #d32f2f; }
-.x1   { background: #9e9e9e; }
-.x05  { background: #388e3c; }
-.x025 { background: #1b5e20; }
-.x0   { background: #6a1b9a; }
-
-/* MADE BY */
-.madeby {
-  position: fixed;
-  bottom: 10px;
-  right: 15px;
-  font-size: 13px;
-  color: #555;
-}
-
-/* LANG BUTTON */
-.lang-toggle {
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.lang-toggle button {
-  padding: 8px 14px;
-  border-radius: 20px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 15px;
+.footer{
+  margin-top:20px;
+  font-size:13px;
+  color:#777;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
+<div class="container">
   <img src="assets/Pocket-Anime-logo.png" class="logo">
-  <h1 id="title"></h1>
+
+  <h1>Pocket Anime</h1>
+  <p>
+    Ferramentas, calculadoras e informações para facilitar
+    sua jornada no universo Pocket Anime.
+  </p>
+
+  <a href="calculator.html" class="btn">
+    🔥 Abrir Calculadora de Elementos
+  </a>
+
+  <div class="footer">
+    Made by Kawaki
+  </div>
 </div>
-
-<div class="selectors">
-  <div class="custom-select" id="primarySelect"></div>
-  <div class="custom-select" id="secondarySelect"></div>
-</div>
-
-<div id="results"></div>
-
-<div class="lang-toggle">
-  <button id="langBtn"></button>
-</div>
-
-<div class="madeby">Made by Kawaki</div>
-
-<script>
-const elements = [
-  'Neutral','Fighting','Fire','Water','Nature','Earth','Wind','Ice',
-  'Lightning','Soul','Psychic','Poison','Light','Dark','Demon','Beast'
-];
-
-const icons = {
-  Neutral:'neutral_element.png', Fire:'fire_element.png', Water:'water_element.png',
-  Nature:'nature_element.png', Earth:'earth_element.png', Wind:'wind_element.png',
-  Ice:'ice_element.png', Lightning:'lightning_element.png', Soul:'soul_element.png',
-  Psychic:'psychic_element.png', Demon:'demon_element.png', Poison:'poison_element.png',
-  Fighting:'fighting_element.png', Light:'light_element.png', Dark:'dark_element.png',
-  Beast:'beast_element.png'
-};
-
-/* TYPE CHART */
-const chart = {
-  Neutral: { Earth: 0.5, Soul: 0 },
-
-  Fighting: {
-    Ice: 2, Earth: 2, Neutral: 2,
-    Psychic: 0.5, Wind: 0.5, Beast: 0.5, Light: 0.5,
-    Soul: 0
-  },
-
-  Fire: {
-    Nature: 2, Ice: 2, Beast: 2,
-    Water: 0.5, Fire: 0.5, Wind: 0.5, Earth: 0.5
-  },
-
-  Water: {
-    Fire: 2, Earth: 2,
-    Nature: 0.5, Lightning: 0.5, Water: 0.5
-  },
-
-  Nature: {
-    Water: 2, Earth: 2, Lightning: 2,
-    Fire: 0.5, Nature: 0.5, Soul: 0.5, Demon: 0.5
-  },
-
-  Earth: {
-    Fire: 2, Lightning: 2, Wind: 2, Poison: 2,
-    Nature: 0.5, Water: 0.5, Fighting: 0.5
-  },
-
-  Wind: {
-    Fire: 2, Fighting: 2,
-    Earth: 0.5, Ice: 0.5, Lightning: 0.5
-  },
-
-  Ice: {
-    Nature: 2, Wind: 2,
-    Fire: 0.5, Ice: 0.5
-  },
-
-  Lightning: {
-    Water: 2, Wind: 2, Beast: 2,
-    Earth: 0.5, Nature: 0.5, Lightning: 0.5
-  },
-
-  Soul: {
-    Psychic: 2, Soul: 2, Fighting: 2,
-    Dark: 0.5, Demon: 0.5,
-    Neutral: 0
-  },
-
-  Psychic: {
-    Fighting: 2, Poison: 2,
-    Dark: 0.5, Psychic: 0.5, Beast: 0.5
-  },
-
-  Poison: {
-    Nature: 2, Light: 2,
-    Earth: 0.5, Soul: 0.5, Poison: 0.5, Beast: 0.5
-  },
-
-  Light: {
-    Dark: 2, Demon: 2, Fighting: 2,
-    Soul: 0.5, Light: 0.5
-  },
-
-  Dark: {
-    Light: 2, Soul: 2, Psychic: 2,
-    Demon: 0.5, Poison: 0.5, Fighting: 0.5, Dark: 0.5
-  },
-
-  Demon: {
-    Soul: 2, Demon: 2,
-    Psychic: 0.5, Light: 0.5
-  },
-
-  Beast: {
-    Psychic: 2, Poison: 2, Dark: 2,
-    Fighting: 0.5, Wind: 0.5, Fire: 0.5
-  }
-};
-
-const texts = {
-  pt:{title:'Calculadora de Fraquezas e Resistências',primary:'Primário',secondary:'Secundário',btn:'🇧🇷 BR',
-  groups:{x4:'Fraqueza Extrema (x4)',x2:'Fraqueza (x2)',x1:'Dano Normal (x1)',x05:'Resistência (x0.5)',x025:'Super Resistência (x0.25)',x0:'Imune (x0)'}},
-  en:{title:'Weakness & Resistance Calculator',primary:'Primary',secondary:'Secondary',btn:'🇺🇲 USA',
-  groups:{x4:'Extreme Weakness (x4)',x2:'Weakness (x2)',x1:'Normal Damage (x1)',x05:'Resistance (x0.5)',x025:'Strong Resistance (x0.25)',x0:'Immune (x0)'}}
-};
-
-let lang='pt';
-let primaryValue='', secondaryValue='';
-
-function createSelect(containerId, label, onSelect){
-  const container=document.getElementById(containerId);
-  container.innerHTML=`
-    <div class="select-btn">
-      <span>${label}</span>
-    </div>
-    <div class="select-options"></div>
-  `;
-
-  const btn=container.querySelector('.select-btn');
-  const options=container.querySelector('.select-options');
-
-  btn.onclick=()=>options.classList.toggle('open');
-
-  options.innerHTML = `<div class="option" data-value="">
-    <span>${label}</span>
-  </div>`;
-
-  elements.forEach(e=>{
-    options.innerHTML+=`
-      <div class="option" data-value="${e}">
-        <img src="assets/${icons[e]}">
-        <span>${e}</span>
-      </div>`;
-  });
-
-  options.querySelectorAll('.option').forEach(opt=>{
-    opt.onclick=()=>{
-      const val=opt.dataset.value;
-      btn.innerHTML = val
-        ? `<img src="assets/${icons[val]}"><span>${val}</span>`
-        : `<span>${label}</span>`;
-      options.classList.remove('open');
-      onSelect(val);
-    };
-  });
-}
-
-function calculate(){
-  const damage={};
-  elements.forEach(atk=>{
-    let m=1;
-    if(primaryValue && chart[atk]?.[primaryValue]!=null) m*=chart[atk][primaryValue];
-    if(secondaryValue && chart[atk]?.[secondaryValue]!=null && primaryValue!==secondaryValue) m*=chart[atk][secondaryValue];
-    damage[atk]=m;
-  });
-  render(damage);
-}
-
-function render(damage){
-  results.innerHTML='';
-  const map={x4:[],x2:[],x1:[],x05:[],x025:[],x0:[]};
-
-  for(const e in damage){
-    const v=damage[e];
-    if(v===0) map.x0.push(e);
-    else if(v===0.25) map.x025.push(e);
-    else if(v===0.5) map.x05.push(e);
-    else if(v===2) map.x2.push(e);
-    else if(v===4) map.x4.push(e);
-    else map.x1.push(e);
-  }
-
-  for(const k in map){
-    if(!map[k].length) continue;
-    const sec=document.createElement('div');
-    sec.className='section';
-    sec.innerHTML=`<h2>${texts[lang].groups[k]}</h2>`;
-    const box=document.createElement('div');
-    box.className='badges';
-    map[k].forEach(e=>{
-      box.innerHTML+=`
-        <div class="badge ${k}">
-          <img src="assets/${icons[e]}">
-          <span>${e}</span>
-        </div>`;
-    });
-    sec.appendChild(box);
-    results.appendChild(sec);
-  }
-}
-
-function updateLang(){
-  document.getElementById('title').textContent=texts[lang].title;
-  document.getElementById('langBtn').textContent=texts[lang].btn;
-
-  createSelect('primarySelect',texts[lang].primary,v=>{primaryValue=v;calculate();});
-  createSelect('secondarySelect',texts[lang].secondary,v=>{secondaryValue=v;calculate();});
-
-  calculate();
-}
-
-document.getElementById('langBtn').onclick=()=>{
-  lang = lang==='pt'?'en':'pt';
-  updateLang();
-};
-
-updateLang();
-</script>
 
 </body>
 </html>

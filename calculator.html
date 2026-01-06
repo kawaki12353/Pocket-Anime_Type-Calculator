@@ -40,6 +40,7 @@ body {
   background: #f1f1f1;
 }
 
+/* LOGO + TITLE */
 .logo {
   width: 220px;
   max-width: 60vw;
@@ -48,6 +49,31 @@ body {
 h1 {
   margin-top: 15px;
   font-size: 24px;
+}
+
+/* MOBILE LAYOUT */
+@media (max-width: 768px) {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: right;
+  }
+
+  .header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .logo {
+    width: 150px;
+  }
+
+  h1 {
+    font-size: 18px;
+    margin-top: 5px;
+  }
 }
 
 /* SELECTORS */
@@ -207,8 +233,11 @@ h1 {
 
 <div class="header">
   <a href="index.html" class="home-btn">Home</a>
-  <img src="assets/Pocket-Anime-logo.png" class="logo">
-  <h1 id="title"></h1>
+
+  <div class="header-content">
+    <img src="assets/Pocket-Anime-logo.png" class="logo">
+    <h1 id="title"></h1>
+  </div>
 </div>
 
 <div class="selectors">

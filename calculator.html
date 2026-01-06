@@ -13,6 +13,26 @@ body {
   margin: 0;
 }
 
+/* HOME BUTTON */
+.home-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  color: #000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.home-btn:hover {
+  background: #f1f1f1;
+}
+
 /* HEADER */
 .header {
   text-align: center;
@@ -184,6 +204,8 @@ h1 {
 
 <body>
 
+<a href="index.html" class="home-btn">Home</a>
+
 <div class="header">
   <img src="assets/Pocket-Anime-logo.png" class="logo">
   <h1 id="title"></h1>
@@ -306,9 +328,7 @@ const texts = {
   groups:{x4:'Extreme Weakness (x4)',x2:'Weakness (x2)',x1:'Normal Damage (x1)',x05:'Resistance (x0.5)',x025:'Strong Resistance (x0.25)',x0:'Immune (x0)'}}
 };
 
-/* 👉 IDIOMA SINCRONIZADO */
 let lang = localStorage.getItem("siteLang") || "pt";
-
 let primaryValue='', secondaryValue='';
 
 function createSelect(containerId, label, onSelect){
@@ -317,21 +337,16 @@ function createSelect(containerId, label, onSelect){
     <div class="select-btn"><span>${label}</span></div>
     <div class="select-options"></div>
   `;
-
   const btn=container.querySelector('.select-btn');
   const options=container.querySelector('.select-options');
-
   btn.onclick=()=>options.classList.toggle('open');
-
-  options.innerHTML = `<div class="option" data-value=""><span>${label}</span></div>`;
-
+  options.innerHTML=`<div class="option" data-value=""><span>${label}</span></div>`;
   elements.forEach(e=>{
     options.innerHTML+=`
       <div class="option" data-value="${e}">
         <img src="assets/${icons[e]}"><span>${e}</span>
       </div>`;
   });
-
   options.querySelectorAll('.option').forEach(opt=>{
     opt.onclick=()=>{
       const val=opt.dataset.value;
@@ -356,7 +371,6 @@ function calculate(){
 function render(damage){
   results.innerHTML='';
   const map={x4:[],x2:[],x1:[],x05:[],x025:[],x0:[]};
-
   for(const e in damage){
     const v=damage[e];
     if(v===0) map.x0.push(e);
@@ -366,7 +380,6 @@ function render(damage){
     else if(v===4) map.x4.push(e);
     else map.x1.push(e);
   }
-
   for(const k in map){
     if(!map[k].length) continue;
     const sec=document.createElement('div');
@@ -388,10 +401,8 @@ function render(damage){
 function updateLang(){
   title.textContent=texts[lang].title;
   langBtn.textContent=texts[lang].btn;
-
   createSelect('primarySelect',texts[lang].primary,v=>{primaryValue=v;calculate();});
   createSelect('secondarySelect',texts[lang].secondary,v=>{secondaryValue=v;calculate();});
-
   calculate();
 }
 

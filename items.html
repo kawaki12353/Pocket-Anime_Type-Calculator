@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pocket Anime - Itens</title>
+
+<style>
+body{
+  margin:0;
+  padding:20px;
+  font-family:Arial,sans-serif;
+  background:#f2f4f7;
+}
+.header{
+  text-align:center;
+  margin-bottom:25px
+}
+.item-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  gap:15px;
+}
+.item{
+  background:#fff;
+  border-radius:12px;
+  padding:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  border:3px solid transparent;
+  transition:.15s;
+}
+.item:hover{
+  transform:translateY(-4px);
+  box-shadow:0 6px 15px rgba(0,0,0,.15);
+}
+.item img{
+  width:48px;
+  height:48px;
+}
+
+.comum{border-color:#9e9e9e}
+.incomum{border-color:#2e7d32}
+.raro{border-color:#0d47a1}
+.epico{border-color:#6a1b9a}
+.lendario{border-color:#f9a825}
+
+.modal-bg{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
+}
+.modal{
+  background:#fff;
+  width:90%;
+  max-width:440px;
+  border-radius:14px;
+  padding:18px;
+}
+.close{
+  text-align:right
+}
+.close button{
+  background:#d32f2f;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  padding:6px 12px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h1>Lista de Itens</h1>
+</div>
+
+<div class="item-list" id="itemList"></div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <div class="close">
+      <button onclick="closeModal()">Fechar</button>
+    </div>
+    <h2 id="mName"></h2>
+    <p><strong>Descrição:</strong> <span id="mDesc"></span></p>
+    <p id="mNote" style="display:none;"></p>
+    <p><strong>Onde obter:</strong> <span id="mDrop"></span></p>
+    <p><strong>Categoria:</strong> <span id="mCat"></span></p>
+  </div>
+</div>
+
+<script>
+const items = [
+{ name:"Bandit Cutlass", desc:"Aumenta o atributo de ATAQUE do Animon que estiver equipado durante a batalha.", drop:"Derrotando o Animon Bandit", rarity:"incomum", cat:"Item de Batalha"},
+
+{ name:"GX-Accuracy", desc:"Dispositivo criado para aumentar drasticamente a precisão dos ataques do Animon.", drop:"Shop", rarity:"comum", cat:"Itens Diversos"},
+
+{ name:"Capsule", desc:"Permite capturar Animons selvagens.", note:"Chance de Captura x1.", drop:"Shop", rarity:"comum", cat:"Item de Captura"},
+
+{ name:"Advance Capsule", desc:"Versão aprimorada usada para capturar Animons selvagens.", note:"Chance de Captura x1.", drop:"Shop", rarity:"incomum", cat:"Item de Captura"},
+
+{ name:"Z-Capsule", desc:"Uma cápsula extremamente poderosa usada para capturar Animons.", note:"Chance de Captura x2.", drop:"Limitado à Fase 2 de Testes.", rarity:"lendario", cat:"Item de Captura"},
+
+{ name:"Aqua Gem", desc:"Uma pequena joia que abriga um vórtice de água pura.", drop:"Derrotando Animons do tipo Água.", rarity:"incomum", cat:"Item de Evolução", icon:"aqua_gem.png"},
+
+{ name:"Battle Claw", desc:"Garra que simboliza força bruta e domínio em combate.", drop:"Derrotando Animons do tipo Lutador.", rarity:"raro", cat:"Item de Evolução"},
+
+{ name:"Breeze Feather", desc:"Uma pena leve e delicada, carregada com a essência do vento.", drop:"Derrotando Animons do tipo Vento.", rarity:"incomum", cat:"Item de Evolução", icon:"breeze_feather.png"},
+
+{ name:"Demon Essence", desc:"Essência concedida por demônios poderosos.", drop:"Derrotando Animons do tipo Demônio.", rarity:"raro", cat:"Item de Evolução"},
+
+{ name:"Divination Cushion", desc:"Almofada usada por videntes em rituais de alto poder espiritual.", drop:"Derrotando Animons do tipo Psíquico.", rarity:"epico", cat:"Item de Evolução"},
+
+{ name:"Enchanted Fabric", desc:"Tecido místico entrelaçado com energia psíquica.", drop:"Derrotando Animons do tipo Psíquico.", rarity:"raro", cat:"Item de Evolução"},
+
+{ name:"Fiend Claw", desc:"Garra imbuída com energia sombria.", drop:"Derrotando Animons do tipo Demônio.", rarity:"incomum", cat:"Item de Evolução"},
+
+{ name:"Frost Shard", desc:"Fragmento congelado que contém a essência do frio extremo.", drop:"Derrotando Animons do tipo Gelo.", rarity:"incomum", cat:"Item de Evolução"},
+
+{ name:"Ignite Gem", desc:"Uma joia brilhante que emana calor intenso.", drop:"Derrotando Animons do tipo Fogo.", rarity:"incomum", cat:"Item de Evolução", icon:"ignite_gem.png"},
+
+{ name:"King's Pincer", desc:"A lendária pinça do rei dos caranguejos.", drop:"Derrotando Animons do tipo Lutador.", rarity:"epico", cat:"Item de Evolução"},
+
+{ name:"Lush Foliage", desc:"Folhagem vibrante que irradia energia natural.", drop:"Derrotando Animons do tipo Natureza.", rarity:"raro", cat:"Item de Evolução", icon:"lush_foliage.png"},
+
+{ name:"Magma Crystal", desc:"Cristal vulcânico com um núcleo de magma incandescente.", drop:"Animons de Fogo / Dinossauro.", rarity:"epico", cat:"Item de Evolução", icon:"magma_crystal.png"},
+
+{ name:"Mind Thread", desc:"Fio que emite intensa energia psíquica.", drop:"Derrotando Animons do tipo Psíquico.", rarity:"incomum", cat:"Item de Evolução", icon:"mind_thread.png"},
+
+{ name:"Mystic Tablet", desc:"Tábua ancestral coberta por runas místicas.", drop:"Derrotando Animons do tipo Alma.", rarity:"incomum", cat:"Item de Evolução", icon:"mystic_tablet.png"},
+
+{ name:"Pure Sphere", desc:"Esfera que irradia energia equilibrada e pura.", drop:"Derrotando Animons do tipo Neutro.", rarity:"epico", cat:"Item de Evolução", icon:"pure_sphere.png"},
+
+{ name:"Radiant Blossom", desc:"Flor mística antiga que emite luz natural.", drop:"Derrotando Animons do tipo Natureza.", rarity:"epico", cat:"Item de Evolução"},
+
+{ name:"Radiant Ring", desc:"Anel dourado que brilha com energia luminosa.", drop:"Derrotando Animons do tipo Luz.", rarity:"incomum", cat:"Item de Evolução"},
+
+{ name:"Shadow Fang", desc:"Presas imbuídas com energia das sombras.", drop:"Derrotando Animons do tipo Sombrio.", rarity:"incomum", cat:"Item de Evolução"},
+
+{ name:"Spark Gem", desc:"Joia que contém eletricidade pura.", drop:"Derrotando Animons do tipo Elétrico.", rarity:"incomum", cat:"Item de Evolução", icon:"spark_gem.png"},
+
+{ name:"Stone Slab", desc:"Uma simples laje de pedra carregada de energia.", drop:"Derrotando Animons do tipo Neutro.", rarity:"raro", cat:"Item de Evolução", icon:"stone_slab.png"},
+
+{ name:"Terra Shards", desc:"Fragmentos sólidos imbuídos com energia da terra.", drop:"Derrotando Animons do tipo Terra.", rarity:"incomum", cat:"Item de Evolução", icon:"terra_shards.png"},
+
+{ name:"Thunder Orb", desc:"Orbe repleto de energia elétrica instável.", drop:"Derrotando Animons do tipo Elétrico.", rarity:"epico", cat:"Item de Evolução"},
+
+{ name:"Venom Vial", desc:"Frasco contendo uma substância venenosa.", drop:"Derrotando Animons do tipo Veneno.", rarity:"incomum", cat:"Item de Evolução"},
+
+{ name:"Verdant Sprigs", desc:"Ramos verdes e brilhantes cheios de vida.", drop:"Derrotando Animons do tipo Natureza.", rarity:"incomum", cat:"Item de Evolução"},
+
+{ name:"Warrior Horn", desc:"Chifre que transborda espírito de batalha.", drop:"Derrotando Animons do tipo Lutador.", rarity:"incomum", cat:"Item de Evolução", icon:"warrior_horn.png"},
+
+{ name:"Aloe", desc:"Tratamento natural para queimaduras.", note:"Remove o status Burn.", drop:"Shop", rarity:"incomum", cat:"Item Médico"},
+
+{ name:"C-Potion", desc:"Poção que recupera a vitalidade do Animon.", note:"Recupera 25 HP.", drop:"Shop", rarity:"comum", cat:"Item Médico"},
+
+{ name:"Endless Bento", desc:"Refeição especial que recupera HP a cada turno.", drop:"Torre do Korin.", rarity:"epico", cat:"Item de Batalha", icon:"endless_bento.png"},
+
+{ name:"Revive", desc:"Revive um Animon que foi derrotado.", drop:"Shop", rarity:"comum", cat:"Item Médico"},
+
+{ name:"Static-Leaf", desc:"Cura o status de paralisia.", drop:"Shop", rarity:"incomum", cat:"Item Médico"},
+
+{ name:"Vitaloom", desc:"Aumenta o valor de HP TV do Animon.", note:"+10 HP TV.", drop:"Loja de Fase", rarity:"raro", cat:"Item de Status"},
+
+{ name:"Witherloom", desc:"Reduz o valor de HP TV do Animon.", note:"-10 HP TV.", drop:"Loja de Fase", rarity:"raro", cat:"Item de Status"},
+
+{ name:"Blaze Orb", desc:"Aumenta o dano causado por ataques de Fogo.", drop:"Shop", rarity:"incomum", cat:"Item de Batalha", icon:"blaze_orb.png"},
+
+{ name:"Fisher's Pass", desc:"Permite acesso a lojas e áreas de pesca.", drop:"Quest", rarity:"raro", cat:"Item Chave", icon:"fisher_pass.png"},
+
+{ name:"Rocky Helmet", desc:"Reflete parte do dano recebido.", drop:"???", rarity:"raro", cat:"Item de Batalha", icon:"rocky_helmet.png"},
+
+{ name:"Seismic Buckler", desc:"Reduz o dano recebido de ataques do tipo Terra.", drop:"Baú no Palácio", rarity:"raro", cat:"Item de Batalha", icon:"seismic_buckler.png"},
+
+{ name:"Smoke Bomb", desc:"Teleporta o jogador para a última estação visitada.", drop:"Shop", rarity:"comum", cat:"Itens Diversos", icon:"smoke_bomb.png"},
+
+{ name:"Strong Axe", desc:"Aumenta significativamente o dano de ataque.", drop:"Axe Man Drop", rarity:"raro", cat:"Item de Batalha", icon:"strong_axe.png"},
+
+{ name:"Weighted Clothes", desc:"Dobra a quantidade de TVs obtidas em batalhas.", drop:"Fighter Crate", rarity:"raro", cat:"Item de Batalha", icon:"weighted_clothes.png"},
+
+{ name:"Beast Talisman", desc:"Desperta a forma Bestial do Animon.", drop:"Bandit Crate", rarity:"epico", cat:"Item de Batalha"}
+];
+
+const list = document.getElementById("itemList");
+const modalBg = document.getElementById("modalBg");
+const mName = document.getElementById("mName");
+const mDesc = document.getElementById("mDesc");
+const mDrop = document.getElementById("mDrop");
+const mCat = document.getElementById("mCat");
+const mNote = document.getElementById("mNote");
+
+items.forEach(i=>{
+  const d=document.createElement("div");
+  d.className=`item ${i.rarity}`;
+  d.innerHTML=`
+    <img src="assets/${i.icon || 'sem_icone.png'}" alt="${i.name}">
+    <strong>${i.name}</strong>
+  `;
+  d.onclick=()=>openModal(i);
+  list.appendChild(d);
+});
+
+function openModal(i){
+  mName.textContent = i.name;
+  mDesc.textContent = i.desc || "[Sem descrição]";
+  mDrop.textContent = i.drop || "-";
+  mCat.textContent = i.cat || "-";
+
+  if(i.note){
+    mNote.style.display="block";
+    mNote.innerHTML = `<strong>Nota:</strong> ${i.note}`;
+  }else{
+    mNote.style.display="none";
+  }
+
+  modalBg.style.display="flex";
+}
+
+function closeModal(){
+  modalBg.style.display="none";
+}
+</script>
+
+</body>
+  </html>

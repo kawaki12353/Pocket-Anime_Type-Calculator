@@ -14,40 +14,18 @@ body{
 }
 
 /* HEADER */
-.header{
-  position:relative;
-  text-align:center;
-  margin-bottom:30px;
-}
-
-/* HOME */
+.header{position:relative;text-align:center;margin-bottom:30px}
 .home-btn{
-  position:absolute;
-  top:0;
-  left:0;
-  background:#fff;
-  border:1px solid #ccc;
-  border-radius:10px;
-  padding:8px 14px;
-  font-weight:bold;
-  text-decoration:none;
-  color:#000;
+  position:absolute;top:0;left:0;
+  background:#fff;border:1px solid #ccc;
+  border-radius:10px;padding:8px 14px;
+  font-weight:bold;text-decoration:none;color:#000;
   box-shadow:0 4px 10px rgba(0,0,0,.1);
 }
 .home-btn:hover{background:#f1f1f1}
 
-/* LOGO */
 .logo{width:220px;max-width:60vw}
-
-/* TITLE */
 .page-title{margin-top:15px;font-size:24px}
-
-/* MOBILE */
-@media(max-width:768px){
-  .header-top{display:flex;justify-content:flex-end;margin-bottom:10px}
-  .logo{width:150px}
-  .page-title{font-size:18px}
-}
 
 /* FILTER BAR */
 .filters{
@@ -64,8 +42,19 @@ body{
   border-radius:10px;
   border:1px solid #ccc;
   font-size:14px;
-  background:#fff;
+  background:#2b2b2b;
+  color:#fff;
+  font-weight:bold;
+  appearance:none;
 }
+
+/* RARITY COLORS */
+.rarity-default{background:#2b2b2b!important}
+.rarity-comum{background:#616161!important}
+.rarity-incomum{background:#2e7d32!important}
+.rarity-raro{background:#0d47a1!important}
+.rarity-epico{background:#6a1b9a!important}
+.rarity-lendario{background:#f9a825!important;color:#000!important}
 
 /* ITEM LIST */
 .item-list{
@@ -137,7 +126,6 @@ body{
   border:none;
   cursor:pointer;
   font-weight:bold;
-  font-size:15px;
 }
 
 /* MADE BY */
@@ -154,23 +142,19 @@ body{
 <body>
 
 <div class="header">
-  <a href="index.html" class="home-btn" id="homeBtn">Home</a>
-  <div class="header-top">
-    <img src="assets/Pocket-Anime-logo.png" class="logo">
-  </div>
+  <a href="index.html" class="home-btn">Home</a>
+  <img src="assets/Pocket-Anime-logo.png" class="logo">
   <h1 id="title" class="page-title"></h1>
 </div>
 
-<!-- FILTERS -->
 <div class="filters">
   <input id="searchInput">
   <select id="categoryFilter"></select>
-  <select id="rarityFilter"></select>
+  <select id="rarityFilter" class="rarity-default"></select>
 </div>
 
 <div class="item-list" id="itemList"></div>
 
-<!-- MODAL -->
 <div class="modal-bg" id="modalBg" onclick="closeModal()">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="close">
@@ -190,18 +174,15 @@ body{
 <div class="madeby">Made by Kawaki</div>
 
 <script>
-let lang = localStorage.getItem("siteLang") || "pt";
-
-/* RARITY ORDER */
+let lang=localStorage.getItem("siteLang")||"pt";
 const rarityOrder={comum:1,incomum:2,raro:3,epico:4,lendario:5};
 
-/* UI TEXT */
 const uiText={
  pt:{
   title:"Lista de Itens",
   search:"Pesquisar item...",
   allCat:"Todas as categorias",
-  allRare:"Todas as raridades",
+  allRare:"Todas raridades",
   cats:[
    "Item de Evolução","Item de Batalha","Item Chave",
    "Item de Status","Item Médico","Item Diverso"
@@ -221,11 +202,10 @@ const uiText={
   ],
   rares:["Common","Uncommon","Rare","Epic","Legendary"],
   close:"Close",desc:"Description:",drop:"How to obtain:",cat:"Category:",
-  btn:"🇺🇲 USA"
+  btn:"🇺🇸 USA"
  }
 };
 
-/* ITEMS */
 const items=[
 {
  rarity:"incomum",
@@ -239,31 +219,33 @@ const items=[
 }
 ];
 
-/* RENDER */
+function updateRarityColor(){
+ rarityFilter.className="";
+ const r=rarityFilter.value;
+ rarityFilter.classList.add(
+  r?`rarity-${r}`:"rarity-default"
+ );
+}
+
 function render(){
  const s=searchInput.value.toLowerCase();
  const c=categoryFilter.value;
  const r=rarityFilter.value;
-
  itemList.innerHTML="";
- items
-  .slice()
-  .sort((a,b)=>rarityOrder[a.rarity]-rarityOrder[b.rarity])
-  .forEach(i=>{
-    const d=i[lang];
-    if(s && !d.name.toLowerCase().includes(s)) return;
-    if(c && d.cat!==c) return;
-    if(r && i.rarity!==r) return;
-
-    const div=document.createElement("div");
-    div.className=`item ${i.rarity}`;
-    div.innerHTML=`<img src="assets/sem_icone.png"><strong>${d.name}</strong>`;
-    div.onclick=()=>openModal(i);
-    itemList.appendChild(div);
-  });
+ items.slice().sort((a,b)=>rarityOrder[a.rarity]-rarityOrder[b.rarity])
+ .forEach(i=>{
+  const d=i[lang];
+  if(s && !d.name.toLowerCase().includes(s))return;
+  if(c && d.cat!==c)return;
+  if(r && i.rarity!==r)return;
+  const div=document.createElement("div");
+  div.className=`item ${i.rarity}`;
+  div.innerHTML=`<img src="assets/sem_icone.png"><strong>${d.name}</strong>`;
+  div.onclick=()=>openModal(i);
+  itemList.appendChild(div);
+ });
 }
 
-/* MODAL */
 function openModal(i){
  const d=i[lang];
  mName.textContent=d.name;
@@ -274,7 +256,6 @@ function openModal(i){
 }
 function closeModal(){modalBg.style.display="none"}
 
-/* LANG */
 function updateLang(){
  title.textContent=uiText[lang].title;
  searchInput.placeholder=uiText[lang].search;
@@ -293,6 +274,7 @@ function updateLang(){
   rarityFilter.innerHTML+=`<option value="${key}">${r}</option>`;
  });
 
+ updateRarityColor();
  render();
 }
 
@@ -304,7 +286,10 @@ langBtn.onclick=()=>{
 
 searchInput.oninput=render;
 categoryFilter.onchange=render;
-rarityFilter.onchange=render;
+rarityFilter.onchange=()=>{
+ updateRarityColor();
+ render();
+};
 
 updateLang();
 </script>

@@ -109,61 +109,57 @@ body{
 <script>
 let lang = localStorage.getItem("lang") || "pt";
 
-/* UI TEXT */
+/* UI */
 const uiText={
- pt:{title:"Lista de Itens",close:"Fechar",desc:"Descrição:",drop:"Onde obter:",cat:"Categoria:",note:"Nota:"},
- en:{title:"Item List",close:"Close",desc:"Description:",drop:"How to obtain:",cat:"Category:",note:"Note:"}
+ pt:{
+  title:"Lista de Itens",
+  close:"Fechar",
+  desc:"Descrição:",
+  drop:"Onde obter:",
+  cat:"Categoria:",
+  note:"Nota:"
+ },
+ en:{
+  title:"Item List",
+  close:"Close",
+  desc:"Description:",
+  drop:"How to obtain:",
+  cat:"Category:",
+  note:"Note:"
+ }
 };
 
-/* ITENS (NOME + TEXTO TRADUZIDOS) */
+/* LISRA DE ITENS */
 const items=[
 {
  rarity:"incomum",
- icon:"sem_icone.png",
- pt:{name:"Bandit Cutlass",desc:"Aumenta o ATAQUE do Animon durante a batalha.",drop:"Derrotando o Animon Bandit",cat:"Item de Batalha"},
- en:{name:"Bandit Cutlass",desc:"Increases the Animon's ATK during battle.",drop:"Defeating Bandit Animon",cat:"Battle Item"}
+ pt:{
+  name:"Bandit Cutlass",
+  desc:"Aumenta o atributo de ATAQUE do Animon durante a batalha.",
+  drop:"Derrotando o Animon Bandit",
+  cat:"Item de Batalha"
+ },
+ en:{
+  name:"Bandit Cutlass",
+  desc:"Increases the Animon's ATK stat during battle.",
+  drop:"Defeating the Bandit Animon",
+  cat:"Battle Item"
+ }
 },
 {
  rarity:"comum",
- icon:"sem_icone.png",
- pt:{name:"GX-Accuracy",desc:"Aumenta drasticamente a precisão dos ataques.",drop:"Shop",cat:"Itens Diversos"},
- en:{name:"GX-Accuracy",desc:"Greatly increases attack accuracy.",drop:"Shop",cat:"Misc Item"}
-},
-{
- rarity:"comum",
- icon:"sem_icone.png",
- pt:{name:"Capsule",desc:"Permite capturar Animons selvagens.",note:"Chance de Captura x1.",drop:"Shop",cat:"Item de Captura"},
- en:{name:"Capsule",desc:"Allows capturing wild Animons.",note:"Capture Rate x1.",drop:"Shop",cat:"Capture Item"}
-},
-{
- rarity:"incomum",
- icon:"sem_icone.png",
- pt:{name:"Advance Capsule",desc:"Versão aprimorada para capturas.",note:"Chance de Captura x1.",drop:"Shop",cat:"Item de Captura"},
- en:{name:"Advanced Capsule",desc:"Upgraded version used for capturing.",note:"Capture Rate x1.",drop:"Shop",cat:"Capture Item"}
-},
-{
- rarity:"lendario",
- icon:"sem_icone.png",
- pt:{name:"Z-Capsule",desc:"Cápsula extremamente poderosa.",note:"Chance de Captura x2.",drop:"Fase 2 de Testes",cat:"Item de Captura"},
- en:{name:"Z-Capsule",desc:"Extremely powerful capture capsule.",note:"Capture Rate x2.",drop:"Test Phase 2",cat:"Capture Item"}
-},
-{
- rarity:"incomum",
- icon:"aqua_gem.png",
- pt:{name:"Aqua Gem",desc:"Joia que abriga um vórtice de água.",drop:"Animons de Água",cat:"Item de Evolução"},
- en:{name:"Aqua Gem",desc:"A gem that houses a vortex of water.",drop:"Water-type Animons",cat:"Evolution Item"}
-},
-{
- rarity:"epico",
- icon:"endless_bento.png",
- pt:{name:"Endless Bento",desc:"Recupera HP a cada turno.",drop:"Torre do Korin",cat:"Item de Batalha"},
- en:{name:"Endless Bento",desc:"Restores HP every turn.",drop:"Korin Tower",cat:"Battle Item"}
-},
-{
- rarity:"epico",
- icon:"sem_icone.png",
- pt:{name:"Beast Talisman",desc:"Desperta a forma Bestial do Animon.",drop:"Bandit Crate",cat:"Item de Batalha"},
- en:{name:"Beast Talisman",desc:"Awakens the Animon's Beast Form.",drop:"Bandit Crate",cat:"Battle Item"}
+ pt:{
+  name:"GX-Accuracy",
+  desc:"Aumenta drasticamente a precisão dos ataques.",
+  drop:"Loja",
+  cat:"Itens Diversos"
+ },
+ en:{
+  name:"GX-Accuracy",
+  desc:"Greatly increases attack accuracy.",
+  drop:"Shop",
+  cat:"Miscellaneous Item"
+ }
 }
 ];
 
@@ -174,10 +170,7 @@ function render(){
  items.forEach(i=>{
   const d=document.createElement("div");
   d.className=`item ${i.rarity}`;
-  d.innerHTML=`
-    <img src="assets/${i.icon}">
-    <strong>${i[lang].name}</strong>
-  `;
+  d.innerHTML=`<img src="assets/sem_icone.png"><strong>${i[lang].name}</strong>`;
   d.onclick=()=>openModal(i);
   list.appendChild(d);
  });

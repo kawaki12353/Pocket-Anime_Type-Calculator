@@ -7,32 +7,32 @@
 
 <style>
 body{
-  font-family:Arial,sans-serif;
-  background:#f2f4f7;
-  padding:20px;
-  margin:0;
+ font-family:Arial,sans-serif;
+ background:#f2f4f7;
+ margin:0;
+ padding:20px;
 }
 
 /* HEADER */
 .header{
-  position:relative;
-  text-align:center;
-  margin-bottom:30px;
+ position:relative;
+ text-align:center;
+ margin-bottom:30px;
 }
 
 /* HOME */
 .home-btn{
-  position:absolute;
-  top:0;
-  left:0;
-  background:#fff;
-  border:1px solid #ccc;
-  border-radius:10px;
-  padding:8px 14px;
-  font-weight:bold;
-  text-decoration:none;
-  color:#000;
-  box-shadow:0 4px 10px rgba(0,0,0,.1);
+ position:absolute;
+ top:0;
+ left:0;
+ background:#fff;
+ border:1px solid #ccc;
+ border-radius:10px;
+ padding:8px 14px;
+ font-weight:bold;
+ text-decoration:none;
+ color:#000;
+ box-shadow:0 4px 10px rgba(0,0,0,.1);
 }
 .home-btn:hover{background:#f1f1f1}
 
@@ -44,49 +44,48 @@ body{
 
 /* MOBILE */
 @media(max-width:768px){
-  .header-top{display:flex;justify-content:flex-end;margin-bottom:10px}
-  .logo{width:150px}
-  .page-title{font-size:18px}
+ .header-top{display:flex;justify-content:flex-end}
+ .logo{width:150px}
+ .page-title{font-size:18px}
 }
 
 /* FILTER BAR */
 .filters{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  flex-wrap:wrap;
-  margin-bottom:25px;
+ display:flex;
+ justify-content:center;
+ gap:12px;
+ flex-wrap:wrap;
+ margin-bottom:25px;
 }
-
 .filters input,
 .filters select{
-  padding:10px 12px;
-  border-radius:10px;
-  border:1px solid #ccc;
-  font-size:14px;
-  background:#fff;
+ padding:10px 14px;
+ border-radius:12px;
+ border:1px solid #ccc;
+ font-size:14px;
+ background:#fff;
 }
 
 /* ITEM LIST */
 .item-list{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
-  gap:15px;
+ display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+ gap:15px;
 }
 .item{
-  background:#fff;
-  border-radius:12px;
-  padding:12px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  cursor:pointer;
-  border:3px solid transparent;
-  transition:.15s;
+ background:#fff;
+ border-radius:12px;
+ padding:12px;
+ display:flex;
+ align-items:center;
+ gap:10px;
+ cursor:pointer;
+ border:3px solid transparent;
+ transition:.15s;
 }
 .item:hover{
-  transform:translateY(-4px);
-  box-shadow:0 6px 15px rgba(0,0,0,.15);
+ transform:translateY(-4px);
+ box-shadow:0 6px 15px rgba(0,0,0,.15);
 }
 .item img{width:48px;height:48px}
 
@@ -99,54 +98,54 @@ body{
 
 /* MODAL */
 .modal-bg{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:30;
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,.6);
+ display:none;
+ align-items:center;
+ justify-content:center;
+ z-index:30;
 }
 .modal{
-  background:#fff;
-  width:90%;
-  max-width:440px;
-  border-radius:14px;
-  padding:18px;
+ background:#fff;
+ width:90%;
+ max-width:440px;
+ border-radius:14px;
+ padding:18px;
 }
 .close{text-align:right}
 .close button{
-  background:#d32f2f;
-  color:#fff;
-  border:none;
-  border-radius:6px;
-  padding:6px 12px;
-  cursor:pointer;
+ background:#d32f2f;
+ color:#fff;
+ border:none;
+ border-radius:6px;
+ padding:6px 12px;
+ cursor:pointer;
 }
 
 /* LANG */
 .lang-toggle{
-  position:fixed;
-  bottom:10px;
-  left:50%;
-  transform:translateX(-50%);
+ position:fixed;
+ bottom:10px;
+ left:50%;
+ transform:translateX(-50%);
 }
 .lang-toggle button{
-  padding:8px 14px;
-  border-radius:20px;
-  border:none;
-  cursor:pointer;
-  font-weight:bold;
-  font-size:15px;
+ padding:8px 14px;
+ border-radius:20px;
+ border:none;
+ cursor:pointer;
+ font-weight:bold;
+ font-size:15px;
 }
 
 /* MADE BY */
 .madeby{
-  position:fixed;
-  bottom:10px;
-  right:15px;
-  font-size:13px;
-  color:#555;
+ position:fixed;
+ bottom:10px;
+ right:15px;
+ font-size:13px;
+ color:#555;
 }
 </style>
 </head>
@@ -154,37 +153,34 @@ body{
 <body>
 
 <div class="header">
-  <a href="index.html" class="home-btn" id="homeBtn">Home</a>
-  <div class="header-top">
-    <img src="assets/Pocket-Anime-logo.png" class="logo">
-  </div>
-  <h1 id="title" class="page-title"></h1>
+ <a href="index.html" class="home-btn">Home</a>
+ <div class="header-top">
+  <img src="assets/Pocket-Anime-logo.png" class="logo">
+ </div>
+ <h1 id="title" class="page-title"></h1>
 </div>
 
-<!-- FILTERS -->
 <div class="filters">
-  <input id="searchInput">
-  <select id="categoryFilter"></select>
-  <select id="rarityFilter"></select>
+ <input id="searchInput">
+ <select id="mainFilter"></select>
 </div>
 
 <div class="item-list" id="itemList"></div>
 
-<!-- MODAL -->
 <div class="modal-bg" id="modalBg" onclick="closeModal()">
-  <div class="modal" onclick="event.stopPropagation()">
-    <div class="close">
-      <button onclick="closeModal()" id="closeBtn"></button>
-    </div>
-    <h2 id="mName"></h2>
-    <p><strong id="lblDesc"></strong> <span id="mDesc"></span></p>
-    <p><strong id="lblDrop"></strong> <span id="mDrop"></span></p>
-    <p><strong id="lblCat"></strong> <span id="mCat"></span></p>
+ <div class="modal" onclick="event.stopPropagation()">
+  <div class="close">
+   <button onclick="closeModal()" id="closeBtn"></button>
   </div>
+  <h2 id="mName"></h2>
+  <p><strong id="lblDesc"></strong> <span id="mDesc"></span></p>
+  <p><strong id="lblDrop"></strong> <span id="mDrop"></span></p>
+  <p><strong id="lblCat"></strong> <span id="mCat"></span></p>
+ </div>
 </div>
 
 <div class="lang-toggle">
-  <button id="langBtn"></button>
+ <button id="langBtn"></button>
 </div>
 
 <div class="madeby">Made by Kawaki</div>
@@ -192,40 +188,47 @@ body{
 <script>
 let lang = localStorage.getItem("siteLang") || "pt";
 
-/* RARITY ORDER */
 const rarityOrder={comum:1,incomum:2,raro:3,epico:4,lendario:5};
 
-/* UI TEXT */
 const uiText={
  pt:{
   title:"Lista de Itens",
   search:"Pesquisar item...",
-  allCat:"Todas as categorias",
-  allRare:"Todas as raridades",
+  all:"Todos",
   cats:[
    "Item de Evolução","Item de Batalha","Item Chave",
    "Item de Status","Item Médico","Item Diverso"
   ],
-  rares:["Comum","Incomum","Raro","Épico","Lendário"],
+  rares:[
+   {key:"comum",label:"Comum"},
+   {key:"incomum",label:"Incomum"},
+   {key:"raro",label:"Raro"},
+   {key:"epico",label:"Épico"},
+   {key:"lendario",label:"Lendário"}
+  ],
   close:"Fechar",desc:"Descrição:",drop:"Onde obter:",cat:"Categoria:",
   btn:"🇧🇷 BR"
  },
  en:{
   title:"Item List",
   search:"Search item...",
-  allCat:"All categories",
-  allRare:"All rarities",
+  all:"All",
   cats:[
    "Evolution Item","Battle Item","Key Item",
    "Status Item","Medical Item","Miscellaneous Item"
   ],
-  rares:["Common","Uncommon","Rare","Epic","Legendary"],
+  rares:[
+   {key:"comum",label:"Common"},
+   {key:"incomum",label:"Uncommon"},
+   {key:"raro",label:"Rare"},
+   {key:"epico",label:"Epic"},
+   {key:"lendario",label:"Legendary"}
+  ],
   close:"Close",desc:"Description:",drop:"How to obtain:",cat:"Category:",
-  btn:"🇺🇲 USA"
+  btn:"🇺🇸 USA"
  }
 };
 
-/* ITEMS */
 const items=[
 {
  rarity:"incomum",
@@ -239,31 +242,27 @@ const items=[
 }
 ];
 
-/* RENDER */
 function render(){
  const s=searchInput.value.toLowerCase();
- const c=categoryFilter.value;
- const r=rarityFilter.value;
-
+ const f=mainFilter.value;
  itemList.innerHTML="";
- items
-  .slice()
-  .sort((a,b)=>rarityOrder[a.rarity]-rarityOrder[b.rarity])
-  .forEach(i=>{
-    const d=i[lang];
-    if(s && !d.name.toLowerCase().includes(s)) return;
-    if(c && d.cat!==c) return;
-    if(r && i.rarity!==r) return;
 
-    const div=document.createElement("div");
-    div.className=`item ${i.rarity}`;
-    div.innerHTML=`<img src="assets/sem_icone.png"><strong>${d.name}</strong>`;
-    div.onclick=()=>openModal(i);
-    itemList.appendChild(div);
-  });
+ items.slice().sort((a,b)=>rarityOrder[a.rarity]-rarityOrder[b.rarity])
+ .forEach(i=>{
+  const d=i[lang];
+  if(s && !d.name.toLowerCase().includes(s)) return;
+  if(f){
+   if(rarityOrder[f] && i.rarity!==f) return;
+   if(!rarityOrder[f] && d.cat!==f) return;
+  }
+  const div=document.createElement("div");
+  div.className=`item ${i.rarity}`;
+  div.innerHTML=`<img src="assets/sem_icone.png"><strong>${d.name}</strong>`;
+  div.onclick=()=>openModal(i);
+  itemList.appendChild(div);
+ });
 }
 
-/* MODAL */
 function openModal(i){
  const d=i[lang];
  mName.textContent=d.name;
@@ -274,7 +273,6 @@ function openModal(i){
 }
 function closeModal(){modalBg.style.display="none"}
 
-/* LANG */
 function updateLang(){
  title.textContent=uiText[lang].title;
  searchInput.placeholder=uiText[lang].search;
@@ -284,14 +282,9 @@ function updateLang(){
  lblCat.textContent=uiText[lang].cat;
  langBtn.textContent=uiText[lang].btn;
 
- categoryFilter.innerHTML=`<option value="">${uiText[lang].allCat}</option>`;
- uiText[lang].cats.forEach(c=>categoryFilter.innerHTML+=`<option>${c}</option>`);
-
- rarityFilter.innerHTML=`<option value="">${uiText[lang].allRare}</option>`;
- uiText[lang].rares.forEach((r,i)=>{
-  const key=Object.keys(rarityOrder)[i];
-  rarityFilter.innerHTML+=`<option value="${key}">${r}</option>`;
- });
+ mainFilter.innerHTML=`<option value="">${uiText[lang].all}</option>`;
+ uiText[lang].cats.forEach(c=>mainFilter.innerHTML+=`<option value="${c}">${c}</option>`);
+ uiText[lang].rares.forEach(r=>mainFilter.innerHTML+=`<option value="${r.key}">${r.label}</option>`);
 
  render();
 }
@@ -303,8 +296,7 @@ langBtn.onclick=()=>{
 };
 
 searchInput.oninput=render;
-categoryFilter.onchange=render;
-rarityFilter.onchange=render;
+mainFilter.onchange=render;
 
 updateLang();
 </script>

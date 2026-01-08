@@ -202,19 +202,24 @@ body{
     <h2 id="mName"></h2>
 
     <div class="section">
-      <div class="section-title" id="lblDesc"></div>
-      <div id="mDesc"></div>
-    </div>
+  <div class="section-title" id="lblDesc"></div>
+  <div id="mDesc"></div>
+</div>
 
-    <div class="section">
-      <div class="section-title" id="lblDrop"></div>
-      <div id="mDrop"></div>
-    </div>
+   <div class="section" id="noteSection" style="display:none;">
+  <div class="section-title" id="lblNote"></div>
+  <div id="mNote"></div>
+</div>
 
-    <div class="section">
-      <div class="section-title" id="lblCat"></div>
-      <div id="mCat"></div>
-    </div>
+   <div class="section">
+  <div class="section-title" id="lblDrop"></div>
+  <div id="mDrop"></div>
+</div>
+
+   <div class="section">
+  <div class="section-title" id="lblCat"></div>
+  <div id="mCat"></div>
+</div>
   </div>
 </div>
 
@@ -241,6 +246,7 @@ const uiText={
   rares:["Comum","Incomum","Raro","Épico","Lendário"],
   close:"Fechar",
   desc:"Descrição",
+  note:"Nota",
   drop:"Onde Obter",
   cat:"Categoria",
   btn:"🇧🇷 BR"
@@ -257,6 +263,7 @@ const uiText={
   rares:["Common","Uncommon","Rare","Epic","Legendary"],
   close:"Close",
   desc:"Description",
+  note:"Note",
   drop:"How to obtain",
   cat:"Category",
   btn:"🇺🇸 USA"
@@ -613,13 +620,24 @@ div.innerHTML = `
 }
 
 function openModal(i){
- const d=i[lang];
- modal.className=`modal ${i.rarity}`;
- mName.textContent=d.name;
- mDesc.textContent=d.desc;
- mDrop.textContent=d.drop;
- mCat.textContent=d.cat;
- modalBg.style.display="flex";
+  const d = i[lang];
+
+  modal.className = `modal ${i.rarity}`;
+  mName.textContent = d.name;
+  mDesc.textContent = d.desc;
+  mDrop.textContent = d.drop;
+  mCat.textContent = d.cat;
+
+  // NOTE
+  if(d.note){
+    mNote.textContent = d.note;
+    noteSection.style.display = "block";
+  }else{
+    mNote.textContent = "";
+    noteSection.style.display = "none";
+  }
+
+  modalBg.style.display = "flex";
 }
 function closeModal(){modalBg.style.display="none"}
 
@@ -628,6 +646,7 @@ function updateLang(){
  searchInput.placeholder=uiText[lang].search;
  closeBtn.textContent=uiText[lang].close;
  lblDesc.textContent=uiText[lang].desc;
+ lblNote.textContent = uiText[lang].note;
  lblDrop.textContent=uiText[lang].drop;
  lblCat.textContent=uiText[lang].cat;
  langBtn.textContent=uiText[lang].btn;

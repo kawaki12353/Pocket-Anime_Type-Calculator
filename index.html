@@ -102,10 +102,15 @@ p{
   <h1 id="title"></h1>
   <p id="description"></p>
 
+  <!-- SOON -->
   <div class="btn btn-soon">
     ⏳ Soon
   </div>
 
+  <!-- NOVO BOTÃO ITENS -->
+  <a href="items.html" class="btn" id="itemsBtn"></a>
+
+  <!-- CALCULADORA -->
   <a href="calculator.html" class="btn" id="calcBtn"></a>
 
   <div class="footer">
@@ -124,6 +129,7 @@ const texts = {
     title: "Pocket Anime",
     description:
       "Site criado com o objetivo de ajudar a todos que gostam de Pocket Anime. Selecione uma das opções abaixo para utilizar alguma das funcionalidades do site.",
+    itemsBtn: "📦 Abrir Lista de Itens",
     calcBtn: "🔥 Abrir Calculadora de Elementos",
     langBtn: "🇧🇷 BR"
   },
@@ -131,6 +137,7 @@ const texts = {
     title: "Pocket Anime",
     description:
       "Site created to help everyone who enjoys Pocket Anime. Select one of the options below to use the site's features.",
+    itemsBtn: "📦 Open Item List",
     calcBtn: "🔥 Open Element Calculator",
     langBtn: "🇺🇲 USA"
   }
@@ -143,6 +150,7 @@ let lang = localStorage.getItem("siteLang") || "pt";
 function updateLang(){
   document.getElementById("title").textContent = texts[lang].title;
   document.getElementById("description").textContent = texts[lang].description;
+  document.getElementById("itemsBtn").textContent = texts[lang].itemsBtn;
   document.getElementById("calcBtn").textContent = texts[lang].calcBtn;
   document.getElementById("langBtn").textContent = texts[lang].langBtn;
 }
@@ -150,7 +158,7 @@ function updateLang(){
 /* BOTÃO DE TROCA DE IDIOMA */
 document.getElementById("langBtn").onclick = () => {
   lang = lang === "pt" ? "en" : "pt";
-  localStorage.setItem("siteLang", lang); // SALVA
+  localStorage.setItem("siteLang", lang);
   updateLang();
 };
 

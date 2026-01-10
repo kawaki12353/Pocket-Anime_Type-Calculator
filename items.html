@@ -179,6 +179,57 @@ body{
   font-size:13px;
   color:#555;
 }
+
+/* CUSTOM SELECT */
+.custom-select{
+  position:relative;
+  width:180px;
+}
+
+.select-btn{
+  background:#1f1f1f;
+  color:#fff;
+  padding:12px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:bold;
+  border:1px solid #444;
+}
+
+.select-list{
+  display:none;
+  position:absolute;
+  top:110%;
+  left:0;
+  width:100%;
+  background:#1c1c1c;
+  border-radius:12px;
+  list-style:none;
+  padding:6px;
+  z-index:20;
+}
+
+.select-list li{
+  padding:10px;
+  border-radius:8px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#fff;
+}
+
+.select-list li:hover{
+  background:#333;
+}
+
+/* RARITY COLORS */
+.r-comum{background:#616161}
+.r-incomum{background:#2e7d32}
+.r-raro{background:#0d47a1}
+.r-epico{background:#6a1b9a}
+.r-lendario{background:#f9a825;color:#000}
+
 </style>
 </head>
 
@@ -192,8 +243,14 @@ body{
 
 <div class="filters">
   <input id="searchInput">
-<select id="categoryFilter" class="category-filter"></select>
-<select id="rarityFilter" class="rarity-default"></select>
+<div class="custom-select" id="categorySelect">
+  <div class="select-btn" id="categoryBtn">Categoria</div>
+  <ul class="select-list" id="categoryList"></ul>
+</div>
+
+<div class="custom-select" id="raritySelect">
+  <div class="select-btn" id="rarityBtn">Raridade</div>
+  <ul class="select-list" id="rarityList"></ul>
 </div>
 
 <div class="item-list" id="itemList"></div>
@@ -651,8 +708,8 @@ function updateRarityColor(){
 
 function render(){
  const s=searchInput.value.toLowerCase();
- const c=categoryFilter.value;
- const r=rarityFilter.value;
+ const c = selectedCategory;
+ const r = selectedRarity;
  itemList.innerHTML="";
  items.slice().sort((a, b) => {
   const rDiff = rarityOrder[a.rarity] - rarityOrder[b.rarity];
@@ -750,6 +807,57 @@ rarityFilter.onchange=()=>{
  updateRarityColor();
  render();
 };
+
+let selectedCategory = "";
+let selectedRarity = "";
+
+function buildCategoryMenu(){
+  categoryList.innerHTML = `<li onclick="selectCategory('')">Todas</li>`;
+  uiText[lang].cats.forEach(c=>{
+    categoryList.innerHTML += `
+      <li onclick="selectCategory('${c}')">${c}</li>
+    `;
+  });
+}
+
+function buildRarityMenu(){
+  rarityList.innerHTML = `<li onclick="selectRarity('')">Todas</li>`;
+  Object.keys(rarityOrder).forEach(r=>{
+    rarityList.innerHTML += `
+      <li class="r-${r}" onclick="selectRarity('${r}')">${r}</li>
+    `;
+  });
+}
+
+function selectCategory(value){
+  selectedCategory = value;
+  categoryBtn.textContent = value || "Categoria";
+  categoryList.style.display = "none";
+  render();
+}
+
+function selectRarity(value){
+  selectedRarity = value;
+  rarityBtn.textContent = value || "Raridade";
+  rarityBtn.className = "select-btn r-" + value;
+  rarityList.style.display = "none";
+  render();
+}
+
+categoryBtn.onclick = () => {
+  categoryList.style.display =
+    categoryList.style.display === "block" ? "none" : "block";
+};
+
+rarityBtn.onclick = () => {
+  rarityList.style.display =
+    rarityList.style.display === "block" ? "none" : "block";
+};
+
+document.addEventListener("click", e=>{
+  if(!categorySelect.contains(e.target)) categoryList.style.display="none";
+  if(!raritySelect.contains(e.target)) rarityList.style.display="none";
+});
 
 updateLang();
 </script>

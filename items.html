@@ -332,6 +332,23 @@ const uiText={
  }
 };
 
+const rarityLabels = {
+  pt: {
+    comum: "Comum",
+    incomum: "Incomum",
+    raro: "Raro",
+    epico: "Épico",
+    lendario: "Lendário"
+  },
+  en: {
+    comum: "Common",
+    incomum: "Uncommon",
+    raro: "Rare",
+    epico: "Epic",
+    lendario: "Legendary"
+  }
+};
+
 const items=[
 {rarity:"incomum",
  pt:{name:"Bandit Cutlass",desc:"A Bandit Cutlass! Aumenta o atributo de ATAQUE do Animon que estiver equipado durante a batalha!",drop:"Derrotando o Animon Bandit.",cat:"Item de Batalha"},
@@ -807,7 +824,7 @@ function buildRarityMenu(){
   Object.keys(rarityOrder).forEach(r=>{
     rarityList.innerHTML += `
       <li class="r-${r}" onclick="selectRarity('${r}')">
-  ${r.charAt(0).toUpperCase() + r.slice(1)}
+  ${rarityLabels[lang][r]}
 </li>
     `;
   });
@@ -815,14 +832,14 @@ function buildRarityMenu(){
 
 function selectCategory(value){
   selectedCategory = value;
-  categoryBtn.textContent = value || "Categoria";
+  categoryBtn.textContent = value || uiText[lang].allCat;
   categoryList.style.display = "none";
   render();
 }
 
 function selectRarity(value){
   selectedRarity = value;
-  rarityBtn.textContent = value || "Raridade";
+  rarityBtn.textContent = value || uiText[lang].allRare;
   rarityBtn.className = "select-btn" + (value ? " r-" + value : "");
   rarityList.style.display = "none";
   render();

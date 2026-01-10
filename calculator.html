@@ -362,12 +362,18 @@ const texts = {
 let lang = localStorage.getItem("siteLang") || "pt";
 let primaryValue='', secondaryValue='';
 
-function createSelect(containerId, label, onSelect){
+function createSelect(containerId, label, selectedValue, onSelect){
   const container=document.getElementById(containerId);
   container.innerHTML=`
-    <div class="select-btn"><span>${label}</span></div>
-    <div class="select-options"></div>
-  `;
+  <div class="select-btn">
+    ${
+      selectedValue
+        ? `<img src="assets/${icons[selectedValue]}"><span>${selectedValue}</span>`
+        : `<span>${label}</span>`
+    }
+  </div>
+  <div class="select-options"></div>
+`;
   const btn=container.querySelector('.select-btn');
   const options=container.querySelector('.select-options');
   btn.onclick=()=>options.classList.toggle('open');
@@ -379,13 +385,17 @@ function createSelect(containerId, label, onSelect){
       </div>`;
   });
   options.querySelectorAll('.option').forEach(opt=>{
-    opt.onclick=()=>{
-      const val=opt.dataset.value;
-      btn.innerHTML = val ? `<img src="assets/${icons[val]}"><span>${val}</span>` : `<span>${label}</span>`;
-      options.classList.remove('open');
-      onSelect(val);
-    };
-  });
+  opt.onclick=()=>{
+    const val=opt.dataset.value;
+
+    btn.innerHTML = val
+      ? `<img src="assets/${icons[val]}"><span>${val}</span>`
+      : `<span>${label}</span>`;
+
+    options.classList.remove('open');
+    onSelect(val);
+  };
+});
 }
 
 function calculate(){
@@ -432,8 +442,25 @@ function render(damage){
 function updateLang(){
   title.textContent=texts[lang].title;
   langBtn.textContent=texts[lang].btn;
-  createSelect('primarySelect',texts[lang].primary,v=>{primaryValue=v;calculate();});
-  createSelect('secondarySelect',texts[lang].secondary,v=>{secondaryValue=v;calculate();});
+  createSelect(
+  'primarySelect',
+  texts[lang].primary,
+  primaryValue,
+  v=>{
+    primaryValue=v;
+    calculate();
+  }
+);
+
+createSelect(
+  'secondarySelect',
+  texts[lang].secondary,
+  secondaryValue,
+  v=>{
+    secondaryValue=v;
+    calculate();
+  }
+);
   calculate();
 }
 

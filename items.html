@@ -700,12 +700,6 @@ const items=[
 }
 ];
 
-function updateRarityColor(){
- rarityFilter.className="";
- const r=rarityFilter.value;
- rarityFilter.classList.add(r?`rarity-${r}`:"rarity-default");
-}
-
 function render(){
  const s=searchInput.value.toLowerCase();
  const c = selectedCategory;
@@ -758,33 +752,25 @@ function openModal(i){
 function closeModal(){modalBg.style.display="none"}
 
 function updateLang(){
- title.textContent=uiText[lang].title;
- searchInput.placeholder=uiText[lang].search;
- closeBtn.textContent=uiText[lang].close;
- lblDesc.textContent=uiText[lang].desc;
- lblNote.textContent = uiText[lang].note;
- lblDrop.textContent=uiText[lang].drop;
- lblCat.textContent=uiText[lang].cat;
- langBtn.textContent=uiText[lang].btn;
+  title.textContent = uiText[lang].title;
+  searchInput.placeholder = uiText[lang].search;
+  closeBtn.textContent = uiText[lang].close;
+  lblDesc.textContent = uiText[lang].desc;
+  lblNote.textContent = uiText[lang].note;
+  lblDrop.textContent = uiText[lang].drop;
+  lblCat.textContent = uiText[lang].cat;
+  langBtn.textContent = uiText[lang].btn;
 
- categoryFilter.innerHTML=`<option value="">${uiText[lang].allCat}</option>`;
- uiText[lang].cats.forEach(c=>categoryFilter.innerHTML+=`<option>${c}</option>`);
-
- rarityFilter.innerHTML=`<option value="">${uiText[lang].allRare}</option>`;
- uiText[lang].rares.forEach((r,i)=>{
-  const key=Object.keys(rarityOrder)[i];
-  rarityFilter.innerHTML+=`<option value="${key}">${r}</option>`;
- });
-
- updateRarityColor();
- render();
+  buildCategoryMenu();
+  buildRarityMenu();
+  render();
 }
 
 langBtn.onclick = () => {
   const scrollPos = window.scrollY;
   const searchValue = searchInput.value;
-  const selectedCategoryIndex = categoryFilter.selectedIndex;
-  const selectedRarity = rarityFilter.value;
+  const cat = selectedCategory;
+  const rar = selectedRarity;
 
   lang = lang === "pt" ? "en" : "pt";
   localStorage.setItem("siteLang", lang);
@@ -792,20 +778,15 @@ langBtn.onclick = () => {
   updateLang();
 
   searchInput.value = searchValue;
-  categoryFilter.selectedIndex = selectedCategoryIndex;
-  rarityFilter.value = selectedRarity;
+  selectedCategory = cat;
+  selectedRarity = rar;
 
-  updateRarityColor();
+  categoryBtn.textContent = cat || "Categoria";
+  rarityBtn.textContent = rar || "Raridade";
+  rarityBtn.className = "select-btn" + (rar ? " r-" + rar : "");
+
   render();
-
   window.scrollTo(0, scrollPos);
-};
-
-searchInput.oninput=render;
-categoryFilter.onchange=render;
-rarityFilter.onchange=()=>{
- updateRarityColor();
- render();
 };
 
 let selectedCategory = "";
@@ -839,7 +820,7 @@ function selectCategory(value){
 function selectRarity(value){
   selectedRarity = value;
   rarityBtn.textContent = value || "Raridade";
-  rarityBtn.className = "select-btn r-" + value;
+  rarityBtn.className = "select-btn" + (value ? " r-" + value : "");
   rarityList.style.display = "none";
   render();
 }

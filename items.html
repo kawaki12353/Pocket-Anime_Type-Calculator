@@ -242,7 +242,7 @@ body{
 </div>
 
 <div class="filters">
-  <input id="searchInput">
+  <input id="searchInput" type="text">
 <div class="custom-select" id="categorySelect">
   <div class="select-btn" id="categoryBtn">Categoria</div>
   <ul class="select-list" id="categoryList"></ul>
@@ -800,7 +800,7 @@ langBtn.onclick = () => {
   selectedRarity = rar;
 
   categoryBtn.textContent = cat || uiText[lang].allCat;
-rarityBtn.textContent = rar || uiText[lang].allRare;
+rarityBtn.textContent = rar ? rarityLabels[lang][rar] : uiText[lang].allRare;
   rarityBtn.className = "select-btn" + (rar ? " r-" + rar : "");
 
   render();
@@ -839,8 +839,9 @@ function selectCategory(value){
 
 function selectRarity(value){
   selectedRarity = value;
-  rarityBtn.textContent = value || uiText[lang].allRare;
-  rarityBtn.className = "select-btn" + (value ? " r-" + value : "");
+  rarityBtn.textContent = value ? rarityLabels[lang][value] : uiText[lang].allRare;
+  rarityBtn.className = "select-btn";
+if(value) rarityBtn.classList.add("r-" + value);
   rarityList.style.display = "none";
   render();
 }

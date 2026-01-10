@@ -230,6 +230,9 @@ body {
   cursor: pointer;
   font-weight: bold;
   font-size: 15px;
+
+  background: transparent;
+  color: var(--lang-btn);
 }
 
 /* Modo claro */
@@ -239,9 +242,10 @@ body {
   --text: #111;
   --border: #ccc;
   --hover: #f1f1f1;
+
+  --lang-btn: #444;
 }
 
-/* Modo Escuro */
 @media (prefers-color-scheme: dark){
   :root{
     --bg: #0f1217;
@@ -249,6 +253,8 @@ body {
     --text: #ffffff;
     --border: #2a2f3a;
     --hover: #232836;
+
+    --lang-btn: #ffffff;
   }
 }
 </style>

@@ -54,9 +54,13 @@ body{
   border-radius:10px;
   border:1px solid #444;
   font-size:14px;
-  background:#2b2b2b;
-  color:#fff;
   font-weight:bold;
+  color:#fff;
+}
+
+/* CATEGORY FILTER */
+.category-filter{
+  background:#2b2b2b;
 }
 
 /* RARITY COLORS */
@@ -188,8 +192,8 @@ body{
 
 <div class="filters">
   <input id="searchInput">
-  <select id="categoryFilter"></select>
-  <select id="rarityFilter" class="rarity-default"></select>
+<select id="categoryFilter" class="category-filter"></select>
+<select id="rarityFilter" class="rarity-default"></select>
 </div>
 
 <div class="item-list" id="itemList"></div>

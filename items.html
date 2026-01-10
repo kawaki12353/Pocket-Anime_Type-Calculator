@@ -332,23 +332,6 @@ const uiText={
  }
 };
 
-const rarityLabels = {
-  pt: {
-    comum: "Comum",
-    incomum: "Incomum",
-    raro: "Raro",
-    epico: "Épico",
-    lendario: "Lendário"
-  },
-  en: {
-    comum: "Common",
-    incomum: "Uncommon",
-    raro: "Rare",
-    epico: "Epic",
-    lendario: "Legendary"
-  }
-};
-
 const items=[
 {rarity:"incomum",
  pt:{name:"Bandit Cutlass",desc:"A Bandit Cutlass! Aumenta o atributo de ATAQUE do Animon que estiver equipado durante a batalha!",drop:"Derrotando o Animon Bandit.",cat:"Item de Batalha"},
@@ -800,9 +783,7 @@ langBtn.onclick = () => {
   selectedRarity = rar;
 
   categoryBtn.textContent = cat || uiText[lang].allCat;
-rarityBtn.textContent = rar
-  ? rarityLabels[lang][rar]
-  : uiText[lang].allRare;
+rarityBtn.textContent = rar || uiText[lang].allRare;
   rarityBtn.className = "select-btn" + (rar ? " r-" + rar : "");
 
   render();
@@ -812,16 +793,11 @@ rarityBtn.textContent = rar
 let selectedCategory = "";
 let selectedRarity = "";
 
-function buildRarityMenu(){
-  rarityList.innerHTML = `
-    <li onclick="selectRarity('')">${uiText[lang].allRare}</li>
-  `;
-
-  Object.keys(rarityOrder).forEach(r=>{
-    rarityList.innerHTML += `
-      <li class="r-${r}" onclick="selectRarity('${r}')">
-        ${rarityLabels[lang][r]}
-      </li>
+function buildCategoryMenu(){
+  categoryList.innerHTML = `<li onclick="selectCategory('')">${uiText[lang].allCat}</li>`;
+  uiText[lang].cats.forEach(c=>{
+    categoryList.innerHTML += `
+      <li onclick="selectCategory('${c}')">${c}</li>
     `;
   });
 }
@@ -846,9 +822,7 @@ function selectCategory(value){
 
 function selectRarity(value){
   selectedRarity = value;
-  rarityBtn.textContent = value
-  ? rarityLabels[lang][value]
-  : uiText[lang].allRare;
+  rarityBtn.textContent = value || "Raridade";
   rarityBtn.className = "select-btn" + (value ? " r-" + value : "");
   rarityList.style.display = "none";
   render();

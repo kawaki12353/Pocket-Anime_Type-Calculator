@@ -13,6 +13,12 @@ body{
   margin:0;
 }
 
+.category-icon{
+  width:18px;
+  height:18px;
+  object-fit:contain;
+}
+
 /* HEADER */
 .header{
   position:relative;
@@ -434,6 +440,18 @@ const categoryLabels = {
     capture:"Capture Item",
     scroll:"Skill Scroll"
   }
+};
+
+const categoryIcons = {
+  all: "assets/icons_categories/all_categories_icon.png",
+  evolution: "assets/icons_categories/evolution_item_icon.png",
+  battle: "assets/icons_categories/battle_item_icon.png",
+  key: "assets/icons_categories/key_item_icon.png",
+  status: "assets/icons_categories/status_item_icon.png",
+  medical: "assets/icons_categories/medical_item_icon.png",
+  misc: "assets/icons_categories/miscellanous_item_icon.png",
+  capture: "assets/icons_categories/capture_item_icon.png",
+  scroll: "assets/icons_categories/skill_scroll_icon.png"
 };
 
 const rarityLabels = {
@@ -886,9 +904,10 @@ function updateLang(){
   buildCategoryMenu();
   buildRarityMenu();
   
-  categoryBtn.textContent = selectedCategory
-  ? categoryLabels[lang][selectedCategory]
-  : uiText[lang].allCat;
+  const icon = selectedCategory ? categoryIcons[selectedCategory] : categoryIcons.all;
+  const text = selectedCategory ? categoryLabels[lang][selectedCategory] : uiText[lang].allCat;
+
+categoryBtn.innerHTML = `<img src="${icon}" class="category-icon"> ${text}`;
 
 rarityBtn.textContent = selectedRarity
   ? rarityLabels[lang][selectedRarity]
@@ -927,11 +946,17 @@ let selectedCategory = "";
 let selectedRarity = "";
 
 function buildCategoryMenu(){
-  categoryList.innerHTML = `<li onclick="selectCategory('')">${uiText[lang].allCat}</li>`;
+  categoryList.innerHTML = `
+    <li onclick="selectCategory('')">
+      <img src="${categoryIcons.all}" class="category-icon">
+      ${uiText[lang].allCat}
+    </li>
+  `;
 
   categoryKeys.forEach(key=>{
     categoryList.innerHTML += `
       <li onclick="selectCategory('${key}')">
+        <img src="${categoryIcons[key]}" class="category-icon">
         ${categoryLabels[lang][key]}
       </li>
     `;
@@ -951,7 +976,15 @@ function buildRarityMenu(){
 
 function selectCategory(value){
   selectedCategory = value;
-  categoryBtn.textContent = value ? categoryLabels[lang][value] : uiText[lang].allCat;
+
+  const icon = value ? categoryIcons[value] : categoryIcons.all;
+  const text = value ? categoryLabels[lang][value] : uiText[lang].allCat;
+
+  categoryBtn.innerHTML = `
+    <img src="${icon}" class="category-icon">
+    ${text}
+  `;
+
   categoryList.style.display = "none";
   render();
 }

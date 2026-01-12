@@ -200,6 +200,9 @@ p{
 </div>
 
 <script>
+const preloadDiscord = new Image();
+preloadDiscord.src = "assets/discordofficial_botton_on.png";
+
 /* TEXTOS DO SITE */
 const texts = {
   pt: {
@@ -251,6 +254,14 @@ discordImg.addEventListener("mouseenter", () => {
 });
 
 discordImg.addEventListener("mouseleave", () => {
+  discordImg.src = originalSrc;
+});
+
+discordImg.addEventListener("touchstart", () => {
+  discordImg.src = hoverSrc;
+});
+
+discordImg.addEventListener("touchend", () => {
   discordImg.src = originalSrc;
 });
 

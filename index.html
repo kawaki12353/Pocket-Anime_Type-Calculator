@@ -16,13 +16,6 @@ body{
   min-height:100vh;
 }
 
-@font-face {
-  font-family: "PlanetJumbo";
-  src: url("assets/fonts/planet_jumbo.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
 /* CONTAINER */
 .container{
   background:#fff;
@@ -160,27 +153,11 @@ p{
   transition:0.25s ease;
 }
 
-.discord-wrap{
-  position: relative;
-  width: 100%;
-}
-
-.discord-text{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: "PlanetJumbo", cursive;
-  font-size: 26px;
-  color: white;
-  text-shadow: 2px 2px 6px rgba(0,0,0,.6);
-  pointer-events: none;
-  white-space: nowrap;
-}
-
 /* Animação hover (troca de imagem) */
 .discord-btn:hover .discord-img{
   transform:scale(1.04);
+}
+
 }
 </style>
 </head>
@@ -206,15 +183,11 @@ p{
 
   <!-- DISCORD BUTTON -->
 <a href="https://discord.gg/pocketanime" target="_blank" class="discord-btn">
-  <div class="discord-wrap">
-    <span class="discord-text">Official Discord</span>
-
-    <img
-      src="assets/discordofficial_botton.png"
-      data-hover="assets/discordofficial_botton_on.png"
-      class="discord-img"
-      alt="Official Discord">
-  </div>
+  <img 
+  src="assets/discordofficial_botton.png"
+  data-hover="assets/discordofficial_botton_on.png"
+  class="discord-img"
+  alt="Official Discord">
 </a>
 
   <div class="footer">

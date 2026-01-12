@@ -137,6 +137,26 @@ p{
   color:#111;
 }
 
+/* DISCORD BUTTON */
+.discord-btn{
+  margin-top:20px;
+  display:inline-block;
+  width:260px;
+  max-width:90%;
+}
+
+.discord-btn img{
+  width:100%;
+  border-radius:12px;
+  transition:0.25s ease;
+}
+
+/* Animação hover (troca de imagem) */
+.discord-btn:hover img{
+  content:url("assets/discordofficial_botton_on.png");
+  transform:scale(1.04);
+}
+
 }
 </style>
 </head>
@@ -159,6 +179,11 @@ p{
 
   <!-- CALCULADORA -->
   <a href="calculator.html" class="btn" id="calcBtn"></a>
+
+  <!-- DISCORD BUTTON -->
+<a href="https://discord.gg/pocketanime" target="_blank" class="discord-btn">
+  <img src="assets/discordofficial_botton.png" alt="Official Discord">
+</a>
 
   <div class="footer">
     Made by Kawaki1963

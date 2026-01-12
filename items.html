@@ -942,8 +942,15 @@ langBtn.onclick = () => {
   selectedCategory = cat;
   selectedRarity = rar;
 
-  categoryBtn.textContent = cat ? categoryLabels[lang][cat] : uiText[lang].allCat;
-rarityBtn.textContent = rar ? rarityLabels[lang][rar] : uiText[lang].allRare;
+if (cat) {
+  categoryBtn.innerHTML = `
+    <img src="${categoryIcons[cat]}" class="category-icon">
+    ${categoryLabels[lang][cat]}
+  `;
+} else {
+  categoryBtn.textContent = uiText[lang].allCat;
+}
+  rarityBtn.textContent = rar ? rarityLabels[lang][rar] : uiText[lang].allRare;
   rarityBtn.className = "select-btn" + (rar ? " r-" + rar : "");
 
   render();

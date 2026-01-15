@@ -27,6 +27,44 @@ body{
   box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
 
+/* CONTAINER DE CRÉDITOS */
+.credits-container{
+  background:#fff;
+  border-radius:16px;
+  padding:20px 25px;
+  max-width:420px;
+  width:100%;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  margin-top:20px;
+}
+
+.credits-container h2{
+  margin:0 0 12px;
+  font-size:20px;
+}
+
+.credits-container p{
+  margin:6px 0;
+  font-size:14px;
+  color:#555;
+}
+
+@media (prefers-color-scheme: dark) {
+  .credits-container{
+    background:#1a1d23;
+    box-shadow:0 10px 30px rgba(0,0,0,.6);
+  }
+
+  .credits-container h2{
+    color:#fff;
+  }
+
+  .credits-container p{
+    color:#cfd3dc;
+  }
+}
+
 /* LOGO */
 .logo{
   width:240px;
@@ -68,13 +106,6 @@ p{
   pointer-events:none;
 }
 
-/* FOOTER */
-.footer{
-  margin-top:22px;
-  font-size:13px;
-  color:#777;
-}
-
 /* LANGUAGE BUTTON */
 .lang-toggle{
   position:fixed;
@@ -114,10 +145,6 @@ p{
 
   p{
     color:#cfd3dc;
-  }
-
-  .footer{
-    color:#9aa0aa;
   }
 
   .btn{
@@ -192,9 +219,20 @@ p{
   alt="Official Discord">
 </a>
 
-  <div class="footer">
-    Made by Kawaki1963
-  </div>
+</div>
+
+<div class="credits-container">
+  <h2 id="creditsTitle"></h2>
+
+  <p>
+    <strong id="creditsCreatorLabel"></strong><br>
+    <span id="creditsCreatorText"></span>
+  </p>
+
+  <p>
+    <strong id="creditsToolsLabel"></strong><br>
+    <span id="creditsToolsText"></span>
+  </p>
 </div>
 
 <div class="lang-toggle">
@@ -213,15 +251,28 @@ const texts = {
       "Site criado com o objetivo de ajudar a todos que gostam de Pocket Anime. Selecione uma das opções abaixo para utilizar alguma das funcionalidades do site.",
     itemsBtn: "📦 Abrir Lista de Itens",
     calcBtn: "🔥 Abrir Calculadora de Elementos",
-    langBtn: "🇧🇷 BR"
+    langBtn: "🇧🇷 BR",
+
+    creditsTitle: "Créditos",
+    creditsCreatorLabel: "Criador:",
+    creditsCreatorText: "Kawakizin – Discord (Kawaki1963)",
+    creditsToolsLabel: "Ferramentas de auxílio:",
+    creditsToolsText: "IA • ibisPaint • Canva"
   },
+
   en: {
     title: "Pocket Anime",
     description:
       "Site created to help everyone who enjoys Pocket Anime. Select one of the options below to use the site's features.",
     itemsBtn: "📦 Open Item List",
     calcBtn: "🔥 Open Element Calculator",
-    langBtn: "🇺🇲 USA"
+    langBtn: "🇺🇲 USA",
+
+    creditsTitle: "Credits",
+    creditsCreatorLabel: "Creator:",
+    creditsCreatorText: "Kawakizin – Discord (Kawaki1963)",
+    creditsToolsLabel: "Support tools:",
+    creditsToolsText: "AI • ibisPaint • Canva"
   }
 };
 
@@ -235,6 +286,13 @@ function updateLang(){
   document.getElementById("itemsBtn").textContent = texts[lang].itemsBtn;
   document.getElementById("calcBtn").textContent = texts[lang].calcBtn;
   document.getElementById("langBtn").textContent = texts[lang].langBtn;
+
+  // CRÉDITOS
+  document.getElementById("creditsTitle").textContent = texts[lang].creditsTitle;
+  document.getElementById("creditsCreatorLabel").textContent = texts[lang].creditsCreatorLabel;
+  document.getElementById("creditsCreatorText").textContent = texts[lang].creditsCreatorText;
+  document.getElementById("creditsToolsLabel").textContent = texts[lang].creditsToolsLabel;
+  document.getElementById("creditsToolsText").textContent = texts[lang].creditsToolsText;
 }
 
 /* BOTÃO DE TROCA DE IDIOMA */

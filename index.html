@@ -86,6 +86,8 @@ p{
 .btn{
   margin-top:18px;
   display:inline-block;
+  width:260px;
+  max-width:90%;
   padding:14px 26px;
   background:#d32f2f;
   color:#fff;
@@ -94,50 +96,11 @@ p{
   font-weight:bold;
   text-decoration:none;
   transition:.2s;
+  text-align:center;
 }
 
 .btn:hover{
   background:#b71c1c;
-}
-
-/* BOTÕES COM IMAGEM */
-.btn-img{
-  margin:18px auto 0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  width:260px;
-  max-width:90%;
-  height:64px;
-
-  background: url("assets/botton_frame_on.png") no-repeat center;
-  background-size: contain;
-
-  color:#fff;
-  font-size:16px;
-  font-weight:bold;
-  text-decoration:none;
-
-  border-radius:14px;
-  transition: transform .15s ease;
-}
-
-/* efeito leve desktop */
-@media (hover: hover) {
-  .btn-img:hover{
-    transform: scale(1.03);
-  }
-}
-
-/* MOBILE */
-@media (max-width: 480px) {
-  .btn-img{
-    width:100%;
-    max-width:100%;
-    height:62px;
-    font-size:15px;
-  }
 }
 
 /* BOTÃO SOON */
@@ -261,7 +224,7 @@ p{
 
   /* BOTÕES */
   .btn{
-    width: 100%;
+    width: 90%;
     padding: 15px 0;
     font-size: 15px;
   }
@@ -316,10 +279,10 @@ p{
   </div>
 
   <!-- NOVO BOTÃO ITENS -->
-  <a href="items.html" class="btn-img" id="itemsBtn"></a>
+  <a href="items.html" class="btn" id="itemsBtn"></a>
 
   <!-- CALCULADORA -->
-  <a href="calculator.html" class="btn-img" id="calcBtn"></a>
+  <a href="calculator.html" class="btn" id="calcBtn"></a>
 
   <!-- DISCORD BUTTON -->
 <a href="https://discord.gg/pocketanime" target="_blank" class="discord-btn">
@@ -436,34 +399,6 @@ discordImg.addEventListener("touchstart", () => {
 
 discordImg.addEventListener("touchend", () => {
   discordImg.src = originalSrc;
-});
-
-/* BOTÕES COM FRAME ON/OFF */
-document.querySelectorAll(".btn-img").forEach(btn => {
-  const onImg = "assets/botton_frame_on.png";
-  const offImg = "assets/botton_frame_off.png";
-
-  // Desktop
-  btn.addEventListener("mousedown", () => {
-    btn.style.backgroundImage = `url(${offImg})`;
-  });
-
-  btn.addEventListener("mouseup", () => {
-    btn.style.backgroundImage = `url(${onImg})`;
-  });
-
-  btn.addEventListener("mouseleave", () => {
-    btn.style.backgroundImage = `url(${onImg})`;
-  });
-
-  // Mobile
-  btn.addEventListener("touchstart", () => {
-    btn.style.backgroundImage = `url(${offImg})`;
-  });
-
-  btn.addEventListener("touchend", () => {
-    btn.style.backgroundImage = `url(${onImg})`;
-  });
 });
 
 </script>

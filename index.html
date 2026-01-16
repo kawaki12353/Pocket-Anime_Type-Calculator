@@ -17,6 +17,10 @@ body{
   min-height:100vh;
 }
 
+:root{
+  --action-width: 260px;
+}
+
 /* CONTAINER */
 .container{
   background:#fff;
@@ -86,7 +90,7 @@ p{
 .btn{
   margin-top:18px;
   display:inline-block;
-  width:260px;
+  width:var(--action-width);
   max-width:90%;
   padding:14px 26px;
   background:#d32f2f;
@@ -173,8 +177,8 @@ p{
 /* DISCORD BUTTON */
 .discord-btn{
   margin-top:20px;
-  display:inline-block;
-  width:260px;
+  display:block;
+  width: var(--action-width);
   max-width:90%;
 }
 
@@ -197,6 +201,11 @@ p{
   body{
     padding: 20px 12px;
     justify-content: flex-start;
+  }
+  
+  /* DOC + WIKI MOBILE */
+  .extra-buttons{
+    width: 100%;
   }
 
   .container,
@@ -264,19 +273,20 @@ p{
 
 /* WIKI + DOC */
 .extra-buttons{
-  margin-top: 14px;
+  margin: 14px auto 0;
   display: flex;
   gap: 12px;
-  justify-content: center;
+  width: var(--action-width);
+  max-width: 90%;
 }
 
 .extra-btn{
   flex: 1;
-  max-width: 48%;
 }
 
 .extra-btn img{
   width: 100%;
+  height: auto;
   border-radius: 12px;
   transition: transform .25s ease;
 }

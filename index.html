@@ -110,6 +110,12 @@ body{
   background:#e0e0e0;
 }
 
+.menu-links a.active{
+  background:#d0d4dc;
+  pointer-events:none;
+  opacity:0.8;
+}
+
 /* DARK MODE */
 @media (prefers-color-scheme: dark){
   .side-menu{
@@ -127,6 +133,10 @@ body{
   }
 
   .menu-links a:hover{
+    background:#3a4050;
+  }
+
+  .menu-links a.active{
     background:#3a4050;
   }
 }
@@ -398,10 +408,11 @@ p{
   <img src="assets/Pocket-Anime-logo.png" class="menu-logo" alt="Pocket Anime">
 
   <nav class="menu-links">
-    <a href="calculator.html" id="menuCalc"></a>
-    <a href="items.html" id="menuItems"></a>
-    <a href="maps.html" id="menuMaps"></a>
-  </nav>
+   <a href="index.html" id="menuHome"></a>
+   <a href="calculator.html" id="menuCalc"></a>
+   <a href="items.html" id="menuItems"></a>
+   <a href="maps.html" id="menuMaps"></a>
+ </nav>
 </aside>
 
 <div class="container">
@@ -475,6 +486,7 @@ const texts = {
     creditsToolsLabel: "Ferramentas de auxílio:",
     creditsToolsText: "IA • ibisPaint • Canva",
     
+    menuHome: "🏠 Casa",
     menuCalc: "🔥 Calculadora",
     menuItems: "📦 Lista de Itens",
     menuMaps: "🗺️ Mapas"
@@ -492,6 +504,7 @@ const texts = {
     creditsToolsLabel: "Support tools:",
     creditsToolsText: "AI • ibisPaint • Canva",
     
+    menuHome: "🏠 Home",
     menuCalc: "🔥 Calculator",
     menuItems: "📦 Item List",
     menuMaps: "🗺️ Maps"
@@ -513,9 +526,10 @@ function updateLang(){
   document.getElementById("creditsToolsLabel").textContent = texts[lang].creditsToolsLabel;
   document.getElementById("creditsToolsText").textContent = texts[lang].creditsToolsText;
   
-  document.getElementById("menuCalc").textContent = texts[lang].menuCalc;
-  document.getElementById("menuItems").textContent = texts[lang].menuItems;
-  document.getElementById("menuMaps").textContent = texts[lang].menuMaps;
+  document.getElementById("menuHome").textContent = texts[lang].menuHome;
+document.getElementById("menuCalc").textContent = texts[lang].menuCalc;
+document.getElementById("menuItems").textContent = texts[lang].menuItems;
+document.getElementById("menuMaps").textContent = texts[lang].menuMaps;
 
 // BOTÃO DOC
   const docImg = document.getElementById("docImg");
@@ -579,6 +593,21 @@ openMenu.onclick = () => {
 
 closeMenu.onclick = closeSideMenu;
 overlay.onclick = closeSideMenu;
+
+// MARCAR PÁGINA ATUAL NO MENU
+const currentPage = location.pathname.split("/").pop() || "index.html";
+
+const menuMap = {
+  "index.html": "menuHome",
+  "calculator.html": "menuCalc",
+  "items.html": "menuItems",
+  "maps.html": "menuMaps"
+};
+
+if (menuMap[currentPage]) {
+  const activeLink = document.getElementById(menuMap[currentPage]);
+  activeLink.classList.add("active");
+}
 
 </script>
 

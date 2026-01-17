@@ -5,11 +5,15 @@ fetch("menu.html")
     initMenu();
   });
 
-function initMenu() {
-  const openMenu = document.getElementById("openMenu");
+function getLang(){
+  return localStorage.getItem("siteLang") || "pt";
+}
+
+function initMenu(){
+  const openMenu  = document.getElementById("openMenu");
   const closeMenu = document.getElementById("closeMenu");
-  const sideMenu = document.getElementById("sideMenu");
-  const overlay  = document.getElementById("menuOverlay");
+  const sideMenu  = document.getElementById("sideMenu");
+  const overlay   = document.getElementById("menuOverlay");
 
   function closeSideMenu(){
     sideMenu.classList.remove("active");
@@ -22,9 +26,14 @@ function initMenu() {
   };
 
   closeMenu.onclick = closeSideMenu;
-  overlay.onclick = closeSideMenu;
+  overlay.onclick   = closeSideMenu;
 
-  /* MARCAR PÁGINA ATUAL */
+  setActivePage();
+  updateMenuLang();
+}
+
+/* MARCA PÁGINA ATUAL */
+function setActivePage(){
   const current = location.pathname.split("/").pop() || "index.html";
 
   const pages = {
@@ -37,13 +46,10 @@ function initMenu() {
   if (pages[current]) {
     document.getElementById(pages[current]).classList.add("active");
   }
-
-  updateMenuLang();
 }
 
-/* TRADUÇÃO DO MENU */
 function updateMenuLang(){
-  const lang = localStorage.getItem("siteLang") || "pt";
+  const lang = getLang();
 
   const text = {
     pt:{

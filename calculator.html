@@ -14,31 +14,135 @@ body {
   margin: 0;
 }
 
+:root{
+  --action-width: 260px;
+}
+
+/* BOTÃO ☰ */
+.menu-btn{
+  position:fixed;
+  top:14px;
+  left:14px;
+  z-index:1001;
+  background:#fff;
+  border:none;
+  border-radius:10px;
+  padding:8px 12px;
+  font-size:22px;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,.2);
+}
+
+/* OVERLAY */
+.menu-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  backdrop-filter: blur(4px);
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+  z-index:1000;
+}
+
+/* MENU */
+.side-menu{
+  position:fixed;
+  top:0;
+  left:0;
+  width:260px;
+  height:100%;
+  background:#fff;
+  box-shadow:4px 0 20px rgba(0,0,0,.25);
+  padding:20px;
+  transform: translateX(-100%);
+  transition:.3s;
+  z-index:1002;
+  display:flex;
+  flex-direction:column;
+}
+
+/* MENU ATIVO */
+.side-menu.active{
+  transform: translateX(0);
+}
+.menu-overlay.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* BOTÃO FECHAR */
+.close-menu{
+  align-self:flex-end;
+  background:none;
+  border:none;
+  font-size:22px;
+  cursor:pointer;
+}
+
+/* LOGO */
+.menu-logo{
+  width:180px;
+  margin:10px auto 24px;
+}
+
+/* LINKS */
+.menu-links{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.menu-links a{
+  padding:12px 16px;
+  background:#f2f4f7;
+  border-radius:12px;
+  text-decoration:none;
+  color:#111;
+  font-weight:bold;
+  transition:.2s;
+}
+
+.menu-links a:hover{
+  background:#e0e0e0;
+}
+
+.menu-links a.active{
+  background:#d0d4dc;
+  pointer-events:none;
+  opacity:0.8;
+}
+
+/* DARK MODE */
+@media (prefers-color-scheme: dark){
+  .side-menu{
+    background:#1a1d23;
+  }
+
+  .menu-btn{
+    background:#1a1d23;
+    color:#fff;
+  }
+
+  .menu-links a{
+    background:#2a2f3a;
+    color:#fff;
+  }
+
+  .menu-links a:hover{
+    background:#3a4050;
+  }
+
+  .menu-links a.active{
+    background:#3a4050;
+  }
+}
+
 /* HEADER */
 .header {
   position: relative;
   text-align: center;
   margin-bottom: 30px;
-}
-
-/* HOME BUTTON */
-.home-btn {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 8px 14px;
-  font-weight: bold;
-  cursor: pointer;
-  text-decoration: none;
-  color: var(--text);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.home-btn:hover {
-  background: var(--hover);
 }
 
 /* LOGO */
@@ -206,15 +310,6 @@ body {
 .x025 { background: #1b5e20; }
 .x0   { background: #6a1b9a; }
 
-/* MADE BY */
-.madeby {
-  position: fixed;
-  bottom: 10px;
-  right: 15px;
-  font-size: 13px;
-  color: #555;
-}
-
 /* LANG BUTTON */
 .lang-toggle {
   position: fixed;
@@ -265,8 +360,27 @@ body {
 
 <body>
 
+<!-- BOTÃO MENU -->
+<button class="menu-btn" id="openMenu">☰</button>
+
+<!-- OVERLAY -->
+<div class="menu-overlay" id="menuOverlay"></div>
+
+<!-- MENU LATERAL -->
+<aside class="side-menu" id="sideMenu">
+  <button class="close-menu" id="closeMenu">✕</button>
+
+  <img src="assets/Pocket-Anime-logo.png" class="menu-logo" alt="Pocket Anime">
+
+  <nav class="menu-links">
+    <a href="index.html" id="menuHome"></a>
+    <a href="calculator.html" id="menuCalc"></a>
+    <a href="items.html" id="menuItems"></a>
+    <a href="maps.html" id="menuMaps"></a>
+  </nav>
+</aside>
+
 <div class="header">
-  <a href="index.html" class="home-btn">Home</a>
 
   <div class="header-top">
     <img src="assets/Pocket-Anime-logo.png" class="logo">
@@ -285,8 +399,6 @@ body {
 <div class="lang-toggle">
   <button id="langBtn"></button>
 </div>
-
-<div class="madeby">Made by Kawaki1963</div>
 
 <script>
 const elements = [
@@ -392,6 +504,41 @@ const texts = {
   groups:{x4:'Extreme Weakness (x4)',x2:'Weakness (x2)',x1:'Normal Damage (x1)',x05:'Resistance (x0.5)',x025:'Strong Resistance (x0.25)',x0:'Immune (x0)'}}
 };
 
+/* ABRIR / FECHAR MENU */
+const openMenu = document.getElementById("openMenu");
+const closeMenu = document.getElementById("closeMenu");
+const sideMenu = document.getElementById("sideMenu");
+const overlay = document.getElementById("menuOverlay");
+
+function closeSideMenu(){
+  sideMenu.classList.remove("active");
+  overlay.classList.remove("active");
+}
+
+openMenu.onclick = () => {
+  sideMenu.classList.add("active");
+  overlay.classList.add("active");
+};
+
+closeMenu.onclick = closeSideMenu;
+overlay.onclick = closeSideMenu;
+
+/* MARCAR PÁGINA ATUAL NO MENU */
+const currentPage = location.pathname.split("/").pop() || "index.html";
+
+const menuMap = {
+  "index.html": "menuHome",
+  "calculator.html": "menuCalc",
+  "items.html": "menuItems",
+  "maps.html": "menuMaps"
+};
+
+if (menuMap[currentPage]) {
+  document
+    .getElementById(menuMap[currentPage])
+    .classList.add("active");
+}
+
 let lang = localStorage.getItem("siteLang") || "pt";
 let primaryValue='', secondaryValue='';
 
@@ -475,6 +622,12 @@ function render(damage){
 function updateLang(){
   title.textContent=texts[lang].title;
   langBtn.textContent=texts[lang].btn;
+  
+  document.getElementById("menuHome").textContent  = texts[lang].menuHome;
+  document.getElementById("menuCalc").textContent  = texts[lang].menuCalc;
+  document.getElementById("menuItems").textContent = texts[lang].menuItems;
+  document.getElementById("menuMaps").textContent  = texts[lang].menuMaps;
+  
   createSelect(
   'primarySelect',
   texts[lang].primary,

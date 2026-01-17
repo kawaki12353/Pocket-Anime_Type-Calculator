@@ -16,7 +16,6 @@ body{
 .category-icon{
   width:18px;
   height:18px;
-  object-fit:contain;
 }
 
 /* HEADER */
@@ -186,11 +185,15 @@ body{
 .select-btn{
   background:#1f1f1f;
   color:#fff;
-  padding:12px;
+  padding:12px 14px;
   border-radius:12px;
   cursor:pointer;
   font-weight:bold;
   border:1px solid #444;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
 }
 
 .select-list{
@@ -203,17 +206,19 @@ body{
   border-radius:12px;
   list-style:none;
   padding:6px;
-  z-index:20;
+  z-index:50;
+  box-shadow:0 8px 18px rgba(0,0,0,.4);
 }
 
 .select-list li{
-  padding:10px;
+  padding:10px 12px;
   border-radius:8px;
   cursor:pointer;
   display:flex;
   align-items:center;
   gap:8px;
   color:#fff;
+  font-weight:bold;
 }
 
 .select-list li:hover{
@@ -991,14 +996,14 @@ function selectCategory(value){
 
   const text = value ? categoryLabels[lang][value] : uiText[lang].allCat;
 
-if (value) {
-  categoryBtn.innerHTML = `
-    <img src="${categoryIcons[value]}" class="category-icon">
-    ${text}
-  `;
-} else {
-  categoryBtn.textContent = text; // sem ícone
-}
+  if (value) {
+    categoryBtn.innerHTML = `
+      <img src="${categoryIcons[value]}" class="category-icon">
+      ${text}
+    `;
+  } else {
+    categoryBtn.textContent = text;
+  }
 
   categoryList.style.display = "none";
   render();
@@ -1006,9 +1011,14 @@ if (value) {
 
 function selectRarity(value){
   selectedRarity = value;
-  rarityBtn.textContent = value ? rarityLabels[lang][value] : uiText[lang].allRare;
+
+  rarityBtn.textContent = value
+    ? rarityLabels[lang][value]
+    : uiText[lang].allRare;
+
   rarityBtn.className = "select-btn";
-if(value) rarityBtn.classList.add("r-" + value);
+  if (value) rarityBtn.classList.add("r-" + value);
+
   rarityList.style.display = "none";
   render();
 }
@@ -1033,6 +1043,27 @@ updateLang();
 searchInput.addEventListener("input", () => {
   render();
 });
+
+function closeAllSelects(){
+  categoryList.style.display = "none";
+  rarityList.style.display = "none";
+}
+
+categoryBtn.onclick = (e) => {
+  e.stopPropagation();
+  const open = categoryList.style.display === "block";
+  closeAllSelects();
+  categoryList.style.display = open ? "none" : "block";
+};
+
+rarityBtn.onclick = (e) => {
+  e.stopPropagation();
+  const open = rarityList.style.display === "block";
+  closeAllSelects();
+  rarityList.style.display = open ? "none" : "block";
+};
+
+document.addEventListener("click", closeAllSelects);
 
 </script>
 

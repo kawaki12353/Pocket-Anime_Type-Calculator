@@ -943,6 +943,10 @@ langBtn.onclick = () => {
   lang = lang === "pt" ? "en" : "pt";
   localStorage.setItem("siteLang", lang);
 
+  if (typeof updateMenuLang === "function") {
+    updateMenuLang();
+  }
+
   updateLang();
 
   searchInput.value = searchValue;

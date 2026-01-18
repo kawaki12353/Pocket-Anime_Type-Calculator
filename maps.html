@@ -32,6 +32,13 @@ body {
   max-width: 60vw;
 }
 
+.map-title {
+  text-align: center;
+  margin-bottom: 12px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
 @media (max-width: 600px) {
   .header {
     justify-content: flex-end;
@@ -82,14 +89,17 @@ body {
   background: var(--hover);
 }
 
-/* MAP IMAGE (ACCORDION) */
+/* MAP IMAGE */
 .map-content {
   max-height: 0;
+  display: flex;
+  justify-content: center;
   overflow: hidden;
   transition: max-height 0.35s ease;
 }
 
 .map-content img {
+  max-width: 100%;
   width: 100%;
   padding: 12px;
   border-radius: 12px;
@@ -130,6 +140,17 @@ body {
   --lang-btn-bg: #444;
 }
 
+@media (max-width: 600px) {
+  .search-container {
+    max-width: 240px;
+  }
+
+  .search-container input {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+}
+
 @media (prefers-color-scheme: dark){
   :root{
     --bg: #0f1217;
@@ -150,6 +171,9 @@ body {
 <div class="header">
   <img src="assets/Pocket-Anime-logo.png" class="logo">
 </div>
+
+<!-- TITLE -->
+<h2 class="map-title" id="mapTitle"></h2>
 
 <!-- SEARCH -->
 <div class="search-container">
@@ -218,8 +242,8 @@ searchInput.addEventListener("input", () => {
 
 /* LANGUAGE */
 const texts = {
-  pt: { btn: "🇧🇷 BR", search: "Pesquisar mapa..." },
-  en: { btn: "🇺🇸 USA", search: "Search map..." }
+  pt: { btn: "🇧🇷 BR", search: "Pesquisar mapa...", title:'Mapas de "Dungeons"' },
+  en: { btn: "🇺🇸 USA", search: "Search map...", title:'"Dungeons" Maps' }
 };
 
 let lang = localStorage.getItem("siteLang") || "pt";
@@ -227,6 +251,8 @@ let lang = localStorage.getItem("siteLang") || "pt";
 function updateLang() {
   langBtn.textContent = texts[lang].btn;
   searchInput.placeholder = texts[lang].search;
+  
+  document.getElementById("mapTitle").textContent = texts[lang].title;
 }
 
 langBtn.onclick = () => {

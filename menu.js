@@ -73,5 +73,5 @@ function updateMenuLang(){
   document.getElementById("menuCalc").textContent  = text[lang].calc;
   document.getElementById("menuItems").textContent = text[lang].items;
   document.getElementById("menuMaps").textContent  = text[lang].maps;
-document.getElementById("menuUpdate").textContent = text[lang].update;
+  document.getElementById("menuUpdate").textContent = text[lang].update;
 }

@@ -20,41 +20,66 @@ body {
 
 /* HEADER */
 .header {
-  position: relative;
   text-align: center;
   margin-bottom: 30px;
 }
 
-/* LOGO */
 .logo {
   width: 220px;
   max-width: 60vw;
 }
 
-/* TÍTULO */
 .page-title {
   margin-top: 15px;
   font-size: 24px;
 }
 
-/* MOBILE */
-@media (max-width: 768px) {
-  .header-top {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 10px;
-  }
-
-  .logo {
-    width: 150px;
-  }
-
-  .page-title {
-    font-size: 18px;
-  }
+/* UPDATE LOG */
+.update-container {
+  max-width: 760px;
+  margin: 0 auto;
 }
 
-/* BOTÃO DE IDIOMA */
+.update-card {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+.update-version {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.update-section {
+  margin-top: 14px;
+}
+
+.update-section h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.update-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.update-section li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.update-section li:last-child {
+  border-bottom: none;
+}
+
+/* LANG BUTTON */
 .lang-toggle {
   position: fixed;
   bottom: 10px;
@@ -68,35 +93,28 @@ body {
   border: none;
   cursor: pointer;
   font-weight: bold;
-  font-size: 15px;
   background: var(--lang-btn-bg);
   color: var(--lang-btn);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
-/* MODO CLARO */
+/* THEME */
 :root{
   --bg: #f2f4f7;
   --card: #ffffff;
   --text: #111;
   --border: #ccc;
-  --hover: #f1f1f1;
-
-  --lang-btn: #ffffff;
+  --lang-btn: #fff;
   --lang-btn-bg: #444;
 }
 
-/* MODO ESCURO */
 @media (prefers-color-scheme: dark){
   :root{
     --bg: #0f1217;
     --card: #181c24;
-    --text: #ffffff;
+    --text: #fff;
     --border: #2a2f3a;
-    --hover: #232836;
-
     --lang-btn: #111;
-    --lang-btn-bg: #ffffff;
+    --lang-btn-bg: #fff;
   }
 }
 </style>
@@ -105,12 +123,11 @@ body {
 <body>
 
 <div class="header">
-  <div class="header-top">
-    <img src="assets/Pocket-Anime-logo.png" class="logo">
-  </div>
-
+  <img src="assets/Pocket-Anime-logo.png" class="logo">
   <h1 id="title" class="page-title"></h1>
 </div>
+
+<div id="updateLogs" class="update-container"></div>
 
 <div class="lang-toggle">
   <button id="langBtn"></button>
@@ -118,21 +135,71 @@ body {
 
 <script>
 const texts = {
-  pt: {
-    title: "Update Log",
-    btn: "🇧🇷 BR"
-  },
-  en: {
-    title: "Update Log",
-    btn: "🇺🇲 USA"
+  pt: { title: "Update Log", btn: "🇧🇷 BR", added: "Adicionado:", improved: "Melhorado:" },
+  en: { title: "Update Log", btn: "🇺🇲 USA", added: "Added:", improved: "Improved:" }
+};
+
+/* 👉 AQUI VOCÊ ADICIONA NOVAS VERSÕES 👇 */
+const updateLogs = {
+  "v1.0.0": {
+    pt: {
+      added: [
+        "Site pronto para ser utilizado!",
+        "Calculadora de Fraquezas e Resistências;",
+        "Lista de Itens do Pocket Anime;",
+        "Mapas de Dungeons"
+      ],
+      improved: [
+        "Adicionado Barra Lateral para melhor locomoção entre páginas."
+      ]
+    },
+    en: {
+      added: [
+        "Site ready to be used!",
+        "Weakness & Resistance Calculator;",
+        "Pocket Anime Items List;",
+        "Dungeon Maps"
+      ],
+      improved: [
+        "Sidebar added for better navigation between pages."
+      ]
+    }
   }
 };
 
 let lang = localStorage.getItem("siteLang") || "pt";
 
+function renderUpdates() {
+  const container = document.getElementById("updateLogs");
+  container.innerHTML = "";
+
+  Object.entries(updateLogs).reverse().forEach(([version, data]) => {
+    const log = data[lang];
+    const card = document.createElement("div");
+    card.className = "update-card";
+
+    card.innerHTML = `
+      <div class="update-version">${version}</div>
+
+      <div class="update-section">
+        <h3>${texts[lang].added}</h3>
+        <ul>${log.added.map(i => `<li>${i}</li>`).join("")}</ul>
+      </div>
+
+      <div class="update-section">
+        <h3>${texts[lang].improved}</h3>
+        <ul>${log.improved.map(i => `<li>${i}</li>`).join("")}</ul>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
 function updateLang() {
   title.textContent = texts[lang].title;
   langBtn.textContent = texts[lang].btn;
+  renderUpdates();
 
   if (typeof updateMenuLang === "function") {
     updateMenuLang();

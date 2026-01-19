@@ -40,7 +40,8 @@ function setActivePage(){
     "index.html": "menuHome",
     "calculator.html": "menuCalc",
     "items.html": "menuItems",
-    "maps.html": "menuMaps"
+    "maps.html": "menuMaps",
+    "update-log.html": "menuUpdate"
   };
 
   if (pages[current]) {
@@ -52,22 +53,26 @@ function updateMenuLang(){
   const lang = getLang();
 
   const text = {
-    pt:{
-      home:"🏠 Início",
-      calc:"🔥 Calculadora",
-      items:"🗂 Itens",
-      maps:"🗺 Mapas"
-    },
-    en:{
-      home:"🏠 Home",
-      calc:"🔥 Calculator",
-      items:"🗂 Items",
-      maps:"🗺 Maps"
-    }
-  };
+  pt:{
+    home:"🏠 Início",
+    calc:"🔥 Calculadora",
+    items:"🗂 Itens",
+    maps:"🗺 Mapas",
+    update:"📝 Update Log"
+  },
+  en:{
+    home:"🏠 Home",
+    calc:"🔥 Calculator",
+    items:"🗂 Items",
+    maps:"🗺 Maps",
+    update:"📝 Update Log"
+  }
+};
 
   document.getElementById("menuHome").textContent  = text[lang].home;
   document.getElementById("menuCalc").textContent  = text[lang].calc;
   document.getElementById("menuItems").textContent = text[lang].items;
   document.getElementById("menuMaps").textContent  = text[lang].maps;
+
+document.getElementById("menuUpdate").textContent = text[lang].update;
 }

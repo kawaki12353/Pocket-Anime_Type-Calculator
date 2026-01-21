@@ -97,6 +97,18 @@ body {
   color: var(--lang-btn);
 }
 
+.update-card {
+  position: relative;
+}
+
+.update-date {
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
 /* THEME */
 :root{
   --bg: #f2f4f7;
@@ -135,13 +147,14 @@ body {
 
 <script>
 const texts = {
-  pt: { title: "Update Log", btn: "🇧🇷 BR", added: "Adicionado:", improved: "Melhorado:" },
-  en: { title: "Update Log", btn: "🇺🇲 USA", added: "Added:", improved: "Improved:" }
+  pt: { title: "Update Log", btn: "🇧🇷 BR", added: "Adicionado:", improved: "Melhorado:", others: "Outros:" },
+  en: { title: "Update Log", btn: "🇺🇲 USA", added: "Added:", improved: "Improved:", others: "Others:" }
 };
 
 /* Versões */
 const updateLogs = {
   "v1.0.0": {
+    date: "2026-01-19",
     pt: {
       added: [
         "• Site pronto para ser utilizado!",
@@ -151,6 +164,9 @@ const updateLogs = {
       ],
       improved: [
         "• Adicionado Barra Lateral para melhor locomoção entre páginas."
+      ],
+      others: [
+        "• Pequenos ajustes visuais."
       ]
     },
     en: {
@@ -162,10 +178,21 @@ const updateLogs = {
       ],
       improved: [
         "• Sidebar added for better navigation between pages."
+      ],
+      others: [
+        "• Minor visual adjustments."
       ]
     }
   }
 };
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString(
+    lang === "pt" ? "pt-BR" : "en-US",
+    { day: "2-digit", month: "short", year: "numeric" }
+  );
+}
 
 let lang = localStorage.getItem("siteLang") || "pt";
 
@@ -179,18 +206,29 @@ function renderUpdates() {
     card.className = "update-card";
 
     card.innerHTML = `
-      <div class="update-version">${version}</div>
+  <div class="update-version">${version}</div>
 
-      <div class="update-section">
-        <h3>${texts[lang].added}</h3>
-        <ul>${log.added.map(i => `<li>${i}</li>`).join("")}</ul>
-      </div>
+  <div class="update-section">
+    <h3>${texts[lang].added}</h3>
+    <ul>${log.added.map(i => `<li>${i}</li>`).join("")}</ul>
+  </div>
 
-      <div class="update-section">
-        <h3>${texts[lang].improved}</h3>
-        <ul>${log.improved.map(i => `<li>${i}</li>`).join("")}</ul>
-      </div>
-    `;
+  <div class="update-section">
+    <h3>${texts[lang].improved}</h3>
+    <ul>${log.improved.map(i => `<li>${i}</li>`).join("")}</ul>
+  </div>
+
+  ${log.others ? `
+  <div class="update-section">
+    <h3>${texts[lang].others}</h3>
+    <ul>${log.others.map(i => `<li>${i}</li>`).join("")}</ul>
+  </div>
+  ` : ""}
+
+  <div class="update-date">
+  ${data.date ? formatDate(data.date) : ""}
+</div>
+`;
 
     container.appendChild(card);
   });
